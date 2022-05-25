@@ -1,0 +1,55 @@
+[
+	{
+		typeField : select,
+		label: 'тип сделки',
+		name: 'typeSdelka',
+		options: [
+			{ value: 'продажа' label: 'продажа'}
+		],
+		required: '0', '1'
+	},
+	
+	{
+		typeField : inputText,
+		type: 'text' | 'number' |  'tel' | 'email' | 'password',
+		label: 'Цена объекта'
+		name: 'cost',
+		placeholder: 'Введите цену в рублях'
+		icon: 'rub',
+		required
+	},
+	
+	{
+		typeField : inputCheck,
+		type: 'checkbox' | 'radio',
+		label,
+		name,
+		options: ['value1', 'value2'],
+		required
+	},
+	
+	{
+		typeField : inputDate,
+		type: 'date' |'datetime'
+		label,
+		name,
+		required
+	},
+	
+	{
+		typeField : inputFile,
+		type: 'file',
+		name,
+		multiply: '0' | '1'
+		required
+	},
+	
+	{
+		typeField : textarea,
+		label,
+		name,
+		placeholder,
+		maxlength: '5000'
+		required
+	}
+]
