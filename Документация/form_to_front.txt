@@ -15,7 +15,6 @@
 		label: 'Цена объекта'
 		name: 'cost',
 		placeholder: 'Введите цену в рублях'
-		icon: 'rub',
 		required
 	},
 	
