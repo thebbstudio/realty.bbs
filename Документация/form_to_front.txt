@@ -14,6 +14,7 @@
 		type: 'text' | 'number' |  'tel' | 'email' | 'password',
 		label: 'Цена объекта'
 		name: 'cost',
+		value: '',
 		placeholder: 'Введите цену в рублях'
 		required
 	},
@@ -23,6 +24,7 @@
 		type: 'checkbox' | 'radio',
 		label,
 		name,
+		value: '',
 		options: ['value1', 'value2'],
 		required
 	},
@@ -32,6 +34,7 @@
 		type: 'date' |'datetime'
 		label,
 		name,
+		value: '',
 		required
 	},
 	
@@ -47,6 +50,7 @@
 		typeField : textarea,
 		label,
 		name,
+		value: '',
 		placeholder,
 		maxlength: '5000'
 		required
