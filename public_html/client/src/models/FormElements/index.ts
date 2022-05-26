@@ -1,4 +1,4 @@
-interface ISelectOptions {
+interface IOptions {
 	value: string,
 	label: string
 }
@@ -7,8 +7,9 @@ export interface ISelect {
 	label: string
 	name: string,
 	value: string,
-	options: ISelectOptions[]
-	required: boolean
+	options: IOptions[]
+	required: boolean,
+	control: any
 }
 
 //
@@ -20,7 +21,8 @@ export interface IInputText {
 	value: string,
 	placeholder: string
 	required: boolean,
-	control: any
+	control: any,
+	text?: string
 }
 
 //
@@ -30,8 +32,9 @@ export interface IInputCheck {
 	label: string,
 	name: string,
 	value: string,
-	options: string[],
-	required: boolean
+	options: IOptions[],
+	required: boolean,
+	control: any
 }
 
 //
