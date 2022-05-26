@@ -1,0 +1,18 @@
+CreateObj (api/createobj)
+    [
+        {
+            token : str,
+            userId : int,
+            owner : {
+                fullName: str,
+                phone: str,
+                email: str
+            },
+            otherField1,
+            otherField1,
+            otherField1,
+            otherField1,
+            otherField1,
+            otherField1,
+        }
+    ]
