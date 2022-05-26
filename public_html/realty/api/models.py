@@ -27,7 +27,7 @@ class Owner(models.Model):
     fullName = models.CharField(max_length=255)
     phone = models.CharField(max_length=12)
     email = models.CharField(max_length=50)
-    
+
 
 class Realty(models.Model):
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
@@ -36,7 +36,7 @@ class Realty(models.Model):
 
 class RealtyData(models.Model):
     obj = models.ForeignKey(Realty, on_delete=models.CASCADE)
-    key = models.CharField(max_length=25)
+    name = models.CharField(max_length=25)
     value = models.CharField(max_length=200)
 
 
