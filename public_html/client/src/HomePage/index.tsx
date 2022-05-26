@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 import FormRealty from './FormRealty';
 import Header from './Header';
 
@@ -8,9 +7,10 @@ export const model = [
   {
     typeField: 'inputText',
     type: 'text',
-    label: 'ФИО собственника',
+    label: 'ФИО',
     name: 'fullNameOwner',
-    placeholder: 'Фамилия Имя Отчество',
+    value: 'ыыы',
+    placeholder: 'Фамилия имя отчество собственника',
     required: '1',
   },
   {
@@ -18,7 +18,8 @@ export const model = [
     type: 'tel',
     label: 'Телефон',
     name: 'telOwner',
-    placeholder: 'Введите номер телефона',
+    value: '',
+    placeholder: 'Введите номер телефона собственника',
     required: '1',
   },
   {
@@ -26,13 +27,15 @@ export const model = [
     type: 'email',
     label: 'Электронная почта',
     name: 'emailOwner',
-    placeholder: 'Введите ваш email',
+    value: '',
+    placeholder: 'Введите email собственника',
     required: '1',
   },
   {
     typeField: 'select',
     label: 'Источник',
     name: 'sourceOwner',
+    value: '',
     options: [
       { value: 'Авито', label: 'Авито' },
       { value: 'ЦИАН', label: 'ЦИАН' },
@@ -46,9 +49,9 @@ const HomePage = () => (
   <>
     <Header />
     <main>
-      <div className="container" style={{ maxWidth: '600px' }}>
+      <Container style={{ maxWidth: '600px' }}>
         <FormRealty />
-      </div>
+      </Container>
     </main>
   </>
 );

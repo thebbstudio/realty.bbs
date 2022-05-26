@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 // TODO:
-//  - add pseudoattr for links
+//  - add hover and active for links
 
 const Header = () => (
   <header
