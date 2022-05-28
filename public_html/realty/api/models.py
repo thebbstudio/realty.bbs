@@ -9,7 +9,7 @@ class Role(models.Model):
 class Token(models.Model):
     token = models.CharField(max_length=50)
     isActive = models.BooleanField(default=True)
-    sellByUTC = models.DateTimeField(defalt=datetime.utcnow())
+    sellByUTC = models.DateTimeField(default=datetime.utcnow())
 
 
 class User(models.Model):
