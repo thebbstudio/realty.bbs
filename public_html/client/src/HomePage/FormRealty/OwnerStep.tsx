@@ -21,7 +21,7 @@ const OwnerStep = ({ control }: any) => (
       name="phoneOwner"
       placeholder="Введите телефон собственника"
       value=""
-      required={false}
+      required
       control={control}
     />
     <InputText
@@ -30,7 +30,6 @@ const OwnerStep = ({ control }: any) => (
       name="emailOwner"
       placeholder="Введите email собственника"
       value=""
-      required={false}
       control={control}
     />
   </>

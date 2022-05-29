@@ -1,34 +1,32 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { InputGroup, Form } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
-import { IInputCheck } from '../models/FormElements';
+import { IInputText } from '../models/FormElements';
 
-const InputCheck = ({ ...props }: IInputCheck) => (
+const InputGroupTextLeft = ({ ...props }: IInputText) => (
   <Form.Group
     className="mb-3"
     controlId={props.name}
   >
     <Form.Label className={!props.required ? 'optional' : 'required'}>{props.label}</Form.Label>
-
-    {props.options.map((option) => (
+    <InputGroup className="mb-3">
+      <InputGroup.Text>{props.text}</InputGroup.Text>
       <Controller
-        key={option.value}
         name={props.name}
         control={props.control}
-        render={({ field: { onChange, value = option.value, ref } }) => (
-          <Form.Check
+        render={({ field: { onChange, value = props.value, ref } }) => (
+          <Form.Control
             type={props.type}
-            name={props.name}
-            defaultValue={value}
+            value={value}
             onChange={onChange}
-            label={option.label}
+            placeholder={props.placeholder}
             required={props.required}
             ref={ref}
           />
         )}
       />
-    ))}
+    </InputGroup>
   </Form.Group>
 );
 
-export default InputCheck;
+export default InputGroupTextLeft;

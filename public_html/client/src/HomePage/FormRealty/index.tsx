@@ -3,6 +3,7 @@ import {
   Button, Col, Form, Row,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import LocationStep from './LocationStep';
 import OwnerStep from './OwnerStep';
 import ParamsRealtyStep from './ParamsRealtyStep';
 import TypeRealtyStep from './TypeRealtyStep';
@@ -19,7 +20,7 @@ import TypeRealtyStep from './TypeRealtyStep';
 
 const FormRealty = () => {
   const [realty, setRealty] = useState({});
-  const { register, handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm();
 
   function onSubmit(data: object) {
     setRealty((prev) => ({
@@ -31,6 +32,7 @@ const FormRealty = () => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <TypeRealtyStep setType={setRealty} />
+      <LocationStep control={control} />
       <OwnerStep control={control} />
       <ParamsRealtyStep control={control} />
       <Row>

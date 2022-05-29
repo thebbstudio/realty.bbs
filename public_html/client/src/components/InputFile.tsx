@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
-import { ISelect } from '../models/FormElements';
+import { IInputFile } from '../models/FormElements';
 
-const Select = ({ ...props }: ISelect) => (
+const InputFile = ({ ...props }: IInputFile) => (
   <Form.Group
     className="mb-3"
     controlId={props.name}
@@ -12,21 +12,17 @@ const Select = ({ ...props }: ISelect) => (
     <Controller
       name={props.name}
       control={props.control}
-      render={({ field: { onChange, value = props.value, ref } }) => (
-        <Form.Select
-          defaultValue={value}
+      render={({ field: { onChange, ref } }) => (
+        <Form.Control
+          type={props.type}
           onChange={onChange}
           required={props.required}
           ref={ref}
-        >
-          <option> </option>
-          {props.options.map((option) => (
-            <option value={option.value} key={option.value}>{option.label}</option>
-          ))}
-        </Form.Select>
+          multiple={props?.multiply}
+        />
       )}
     />
   </Form.Group>
 );
 
-export default Select;
+export default InputFile;

@@ -1,0 +1,8 @@
+.optional::after {
+  content: " - опц.";
+  color: #6c757d;
+}
+.required::after {
+  content: " * ";
+  color: #dc3545;
+}

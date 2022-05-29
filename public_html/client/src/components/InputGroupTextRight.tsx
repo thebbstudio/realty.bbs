@@ -8,7 +8,7 @@ const InputGroupTextRight = ({ ...props }: IInputText) => (
     className="mb-3"
     controlId={props.name}
   >
-    <Form.Label>{props.label}</Form.Label>
+    <Form.Label className={!props.required ? 'optional' : 'required'}>{props.label}</Form.Label>
 
     <InputGroup className="mb-3">
       <Controller
