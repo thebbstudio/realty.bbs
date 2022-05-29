@@ -8,7 +8,7 @@ export interface ISelect {
 	name: string,
 	value: string,
 	options: IOptions[]
-	required: boolean,
+	required?: boolean,
 	control: any
 }
 
@@ -19,10 +19,12 @@ export interface IInputText {
 	label: string
 	name: string,
 	value: string,
-	placeholder: string
-	required: boolean,
+	placeholder?: string
+	required?: boolean,
 	control: any,
-	text?: string
+	text?: string,
+	plaintext?: boolean,
+	readOnly?: boolean
 }
 
 //
@@ -33,7 +35,7 @@ export interface IInputCheck {
 	name: string,
 	value: string,
 	options: IOptions[],
-	required: boolean,
+	required?: boolean,
 	control: any
 }
 
@@ -44,7 +46,7 @@ export interface IInputDate {
 	label: string,
 	name: string,
 	value: string,
-	required: boolean
+	required?: boolean
 }
 
 //
@@ -53,8 +55,9 @@ export interface IInputFile {
 	type: 'file',
 	label: string,
 	name: string,
-	multiply: boolean
-	required: boolean
+	multiply?: boolean
+	required?: boolean
+	control: any
 }
 
 //
@@ -65,5 +68,5 @@ export interface ITextarea {
 	value: string,
 	placeholder: string,
 	maxlength: number
-	required: boolean
+	required?: boolean
 }

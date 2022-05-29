@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import ErrorPage from './ErrorPage';
+import './css/style.css';
 
 const App = () => (
   <Routes>

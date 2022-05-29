@@ -9,7 +9,7 @@ const InputText = ({ ...props }: IInputText) => (
     className="mb-3"
     controlId={props.name}
   >
-    <Form.Label>{props.label}</Form.Label>
+    <Form.Label className={!props.required ? 'optional' : 'required'}>{props.label}</Form.Label>
     <Controller
       name={props.name}
       control={props.control}
@@ -21,6 +21,8 @@ const InputText = ({ ...props }: IInputText) => (
           placeholder={props.placeholder}
           required={props.required}
           ref={ref}
+          plaintext={props?.plaintext}
+          readOnly={props?.readOnly}
         />
       )}
     />

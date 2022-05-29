@@ -1,27 +1,36 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-const TypeRealtyStep = ({ setType }: any) => (
+const TypeRealtyStep = ({ setTypeRealty, setStepForm }: any) => (
   <>
     <div className="d-flex justify-content-center mt-5 mb-3">
       <h3>Выберите тип недвижимости:</h3>
     </div>
-    <div className="d-grid gap-2">
+    <div className="d-grid gap-2 mb-3">
       <Button
         type="button"
-        onClick={() => setType((prev: any) => ({ ...prev, typeRealty: 'Квартира' }))}
+        onClick={() => setTypeRealty(() => {
+          setStepForm((prev: number) => prev + 1);
+          return { typeRealty: 'Квартира' };
+        })}
       >
         Квартира
       </Button>
       <Button
         type="button"
-        onClick={() => setType((prev: any) => ({ ...prev, typeRealty: 'Комната' }))}
+        onClick={() => setTypeRealty(() => {
+          setStepForm((prev: number) => prev + 1);
+          return { typeRealty: 'Комната' };
+        })}
       >
         Комната
       </Button>
       <Button
         type="button"
-        onClick={() => setType((prev: any) => ({ ...prev, typeRealty: 'Дача' }))}
+        onClick={() => setTypeRealty(() => {
+          setStepForm((prev: number) => prev + 1);
+          return { typeRealty: 'Дача' };
+        })}
       >
         Дача
       </Button>
