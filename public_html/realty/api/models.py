@@ -1,7 +1,7 @@
 import email
 from django.db import models
 from datetime import datetime
-
+from django.utils import timezone
 
 class Role(models.Model):
     name = models.CharField(max_length=25)
@@ -9,7 +9,9 @@ class Role(models.Model):
 class Token(models.Model):
     token = models.CharField(max_length=50)
     isActive = models.BooleanField(default=True)
-    sellByUTC = models.DateTimeField(default=datetime.utcnow())
+    sellByUTC = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ['-sellByUTC','-isActive']
 
 
 class User(models.Model):
@@ -21,7 +23,8 @@ class User(models.Model):
     isActive = models.BooleanField(default=True)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     token = models.ForeignKey(Token, on_delete=models.CASCADE)
-
+    class Meta:
+        ordering = ['fullName']
 
 class Owner(models.Model):
     fullName = models.CharField(max_length=255)

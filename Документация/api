@@ -16,3 +16,27 @@ CreateObj (api/createobj)
             otherField1,
         }
     ]
+
+GetDataOneRealty
+    [
+        {
+            token, 
+            userId,
+            realtyId
+        }
+    ]
+
+GetDataRealty
+    [
+        {
+            token, 
+            userId
+        }
+    ]
+
+Auth
+    {
+        login,
+        password
+    }
+    
