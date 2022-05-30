@@ -83,8 +83,8 @@ class CheckTokenView(APIView):
     def get(self, request):
         data = {}
 
-        for key, value in request.data['params'].items():
-            data.update({key : value})
+        data['token'] = request.GET['token']
+        data['userId'] = request.GET['userId']
 
         if not ValidateParams(('token', 'userId'), data):
             return Response(status=401, data={'msg' : 'Missing parameter'})

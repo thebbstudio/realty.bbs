@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import InputGroupTextLeft from '../components/InputGroupTextLeft';
 import useAuth from '../hook/useAuth';
 import HttpAuth from '../http/HttpAuth';
-// import cl from './AuthPage.module.css';
 
 type UserSubmitForm = {
   login: string,

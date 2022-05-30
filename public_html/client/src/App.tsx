@@ -11,20 +11,20 @@ import AuthProvider from './hoc/AuthProvider';
 const App = () => (
   <AuthProvider>
     <Routes>
+      <Route path="/auth" element={<AuthPage />} />
       <Route
         path="/"
         element={(
           <RequiredAuth>
             <Routes>
               <Route index element={<HomePage />} />
-              <Route path="form" element={<HomePage />} />
-              <Route path="table" element={<HomePage />} />
+              {/* <Route path="form" element={<HomePage />} />
+              <Route path="table" element={<HomePage />} /> */}
+              <Route path="*" element={<ErrorPage />} />
             </Routes>
           </RequiredAuth>
       )}
       />
-      <Route path="/auth" element={<AuthPage />} />
-      <Route path="*" element={<ErrorPage />} />
     </Routes>
   </AuthProvider>
 );

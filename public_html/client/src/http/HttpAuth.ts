@@ -12,18 +12,16 @@ class HttpAuth {
   }
 
   static async checkToken() {
-    const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
-    if (token !== null && userId !== null) {
-      const response = await axios.get(`${BASE_URL}/api/checktoken`, {
-        params: {
-          token,
-          userId,
-        },
-      });
-      return response;
-    }
-    return null;
+    console.log('я здесь');
+    const response = await axios.get(`${BASE_URL}/api/checktoken`, {
+      params: {
+        token: localStorage.getItem('token'),
+        userId: localStorage.getItem('userId'),
+      },
+    });
+    console.log('я тут');
+
+    return response;
   }
 }
 
