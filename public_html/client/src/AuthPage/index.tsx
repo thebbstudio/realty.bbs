@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import InputGroupTextLeft from '../components/InputGroupTextLeft';
 import useAuth from '../hook/useAuth';
+import HttpAuth from '../http/HttpAuth';
 // import cl from './AuthPage.module.css';
 
 type UserSubmitForm = {
@@ -22,8 +23,15 @@ const AuthPage = () => {
   function onSubmit(data: UserSubmitForm) {
     const { login, password } = data;
 
-    user?.signIn({ login, password }, () => {
-      navigate('/');
+    user?.signIn({ login, password }, async () => {
+      const response = await HttpAuth.send({ login, password });
+      console.log(response);
+      if (response.status === 200) {
+        navigate('/');
+      }
+      if (response.status === 401) {
+        console.log('вы гей');
+      }
     });
   }
 

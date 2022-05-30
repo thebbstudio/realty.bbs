@@ -3,7 +3,7 @@ import BASE_URL from './config';
 
 class HttpAuth {
   static async send(user: object) {
-    const response = await axios.post(`${BASE_URL}/api`, {
+    const response = await axios.post(`${BASE_URL}/api/auth`, {
       params: {
         ...user,
       },
