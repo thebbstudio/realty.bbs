@@ -79,7 +79,6 @@ class AuthView(APIView):
         return Response({'token':token.token,'userId' : user['token_id']})
         
 
-
 def GetDataObject(id):
     return RealtyData.objects.filter(obj = id).values()
     
@@ -140,12 +139,13 @@ class GetDataRealty(APIView):
 
         return Response(status=200, data=resp)
 
+
 class CreateRealty(APIView):
     def post(self, request):
         
         data = {}
 
-        for key, value in request.data.items():
+        for key, value in request.data['params'].items():
             data.update({key : value})
             
         if not ValidateParams(('token', 'userId','fullNameOwner', 'phoneOwner'), data):
@@ -184,6 +184,7 @@ class CreateRealty(APIView):
 
         realty = Realty(owner_id=owner.id, user_id=user['id'])
         realty.save()
+        # ПИЗДЕЦ БЛЯТЬ ФОТО ХУЁВО СОХРАНИТ
         for key, value in data.items():
             RealtyData(obj_id=realty.id, name=key, value=value).save()
 
