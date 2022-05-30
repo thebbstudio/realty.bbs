@@ -49,6 +49,7 @@ const FormRealty = () => {
 
   function onSubmit(data: object) {
     const request = {
+      token: localStorage.getItem('token'),
       ...data,
       ...typeRealty,
     };

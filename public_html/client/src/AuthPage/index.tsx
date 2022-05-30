@@ -20,19 +20,22 @@ const AuthPage = () => {
 
   const user = useAuth();
 
-  function onSubmit(data: UserSubmitForm) {
+  async function onSubmit(data: UserSubmitForm) {
     const { login, password } = data;
+    const response = await HttpAuth.send({ login, password });
 
-    user?.signIn({ login, password }, async () => {
-      const response = await HttpAuth.send({ login, password });
-      console.log(response);
-      if (response.status === 200) {
+    if (response.status === 200) {
+      const { token, userId } = response.data;
+      user?.signIn({ token, userId }, () => {
+        console.log('успешная авторизация');
+        localStorage.setItem('token', response.data?.token);
+        localStorage.setItem('userId', response.data?.userId);
         navigate('/');
-      }
-      if (response.status === 401) {
-        console.log('вы гей');
-      }
-    });
+      });
+    }
+    if (response.status === 401) {
+      console.log('вы гей');
+    }
   }
 
   return (
