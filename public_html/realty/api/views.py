@@ -70,13 +70,13 @@ class AuthView(APIView):
             tokenStr = signer.sign(str(time))
             token = Token(token=tokenStr)   
             token.save()
-            return Response({'token':token.token,'userId' : user['token_id']})
+            return Response({'token':token.token,'userId' : user['id']})
         
         # Проверка живости токена
         if token.sellByUTC > timezone.now():
             return Response(status=403, data={'msg':'Token time is up'})
         
-        return Response({'token':token.token,'userId' : user['token_id']})
+        return Response({'token':token.token, 'userId' : user['id']})
         
 
 def GetDataObject(id):
