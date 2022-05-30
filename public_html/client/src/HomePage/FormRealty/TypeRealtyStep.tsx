@@ -9,28 +9,28 @@ const TypeRealtyStep = ({ setTypeRealty, setStepForm }: any) => (
     <div className="d-grid gap-2 mb-3">
       <Button
         type="button"
-        onClick={() => setTypeRealty(() => {
+        onClick={() => {
           setStepForm((prev: number) => prev + 1);
-          return { typeRealty: 'Квартира' };
-        })}
+          setTypeRealty(() => ({ typeRealty: 'Квартира' }));
+        }}
       >
         Квартира
       </Button>
       <Button
         type="button"
-        onClick={() => setTypeRealty(() => {
+        onClick={() => {
           setStepForm((prev: number) => prev + 1);
-          return { typeRealty: 'Комната' };
-        })}
+          setTypeRealty(() => ({ typeRealty: 'Комната' }));
+        }}
       >
         Комната
       </Button>
       <Button
         type="button"
-        onClick={() => setTypeRealty(() => {
+        onClick={() => {
           setStepForm((prev: number) => prev + 1);
-          return { typeRealty: 'Дача' };
-        })}
+          setTypeRealty(() => ({ typeRealty: 'Дача' }));
+        }}
       >
         Дача
       </Button>

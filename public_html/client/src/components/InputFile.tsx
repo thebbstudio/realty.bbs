@@ -12,6 +12,7 @@ const InputFile = ({ ...props }: IInputFile) => (
     <Controller
       name={props.name}
       control={props.control}
+      rules={{ required: props.required }}
       render={({ field: { onChange, ref } }) => (
         <Form.Control
           type={props.type}

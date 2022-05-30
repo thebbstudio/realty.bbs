@@ -12,9 +12,11 @@ const Select = ({ ...props }: ISelect) => (
     <Controller
       name={props.name}
       control={props.control}
-      render={({ field: { onChange, value = props.value, ref } }) => (
+      defaultValue={props.value}
+      rules={{ required: props.required }}
+      render={({ field: { onChange, value, ref } }) => (
         <Form.Select
-          defaultValue={value}
+          value={value}
           onChange={onChange}
           required={props.required}
           ref={ref}

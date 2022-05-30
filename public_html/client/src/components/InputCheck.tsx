@@ -14,12 +14,14 @@ const InputCheck = ({ ...props }: IInputCheck) => (
       <Controller
         key={option.value}
         name={props.name}
+        defaultValue={props.value}
+        rules={{ required: props.required }}
         control={props.control}
-        render={({ field: { onChange, value = option.value, ref } }) => (
+        render={({ field: { onChange, value, ref } }) => (
           <Form.Check
             type={props.type}
             name={props.name}
-            defaultValue={value}
+            value={value}
             onChange={onChange}
             label={option.label}
             required={props.required}

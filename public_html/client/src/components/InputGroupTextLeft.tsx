@@ -10,11 +10,13 @@ const InputGroupTextLeft = ({ ...props }: IInputText) => (
   >
     <Form.Label className={!props.required ? 'optional' : 'required'}>{props.label}</Form.Label>
     <InputGroup className="mb-3">
-      <InputGroup.Text>{props.text}</InputGroup.Text>
+      <InputGroup.Text dangerouslySetInnerHTML={{ __html: props.text! }} />
       <Controller
         name={props.name}
         control={props.control}
-        render={({ field: { onChange, value = props.value, ref } }) => (
+        defaultValue={props.value}
+        rules={{ required: props.required }}
+        render={({ field: { onChange, value, ref } }) => (
           <Form.Control
             type={props.type}
             value={value}
