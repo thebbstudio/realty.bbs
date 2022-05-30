@@ -8,6 +8,7 @@ class HttpFormRequest {
         ...form,
       },
     });
+    return response;
   }
 }
 

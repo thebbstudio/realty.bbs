@@ -7,8 +7,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import *
 
+from django.http import Http404
+from rest_framework import status
 from datetime import datetime
-from .customException import *
 
 
 def ValidateParams(paramsList, dataList):
@@ -18,28 +19,6 @@ def ValidateParams(paramsList, dataList):
             return False
     return True
 
-def CheckingUserData(token, userId, login='', password=''):
-    # Проверка есть ли вообще такой пользователь
-    try:
-        user = User.objects.get(id = userId)
-    except ObjectDoesNotExist:
-        print('Error: token or userId not found')
-        raise Http403_data
-
-    # Проверка есть ли вообще такой токин
-    try:
-        print(token,user.token_id)
-        token = Token.objects.get(token=token, id=user.token_id)
-    except ObjectDoesNotExist:
-        print('Error: token not found')
-        raise Http403_data
-    
-    # Проверка живости токена
-    if token.sellByUTC > timezone.now():
-        print('Token time is up')
-        raise Http403_token
-
-    return user, token
 
 
 class CreateUser(APIView):
@@ -64,8 +43,9 @@ class AuthView(APIView):
         
         data = {}
         print(request.data)
-        for key, value in request.data.items():
+        for key, value in request.data['params'].items():
             data.update({key : value})
+        print(data)
         if not ValidateParams(('login', 'password'), data):
             return Response(status=401, data={'msg' : 'Missing parameter'})
         
@@ -75,7 +55,7 @@ class AuthView(APIView):
         password = signer.sign(data['password'])
 
         try:
-            user = User.objects.get(login=login,password=password,isActive=True)
+            user = User.objects.filter(login=login,password=password,isActive=True).values()[:1][0]
         except ObjectDoesNotExist:
             print('Error auth')
             return Response(status=403, data={'msg': 'User not found'})
@@ -83,12 +63,11 @@ class AuthView(APIView):
 
         # Проверка есть ли вообще такой токин
         try:
-            token = Token.objects.get(id = user.token_id, isActive=True)
+            token = Token.objects.get(id = user['token_id'], isActive=True)
         except ObjectDoesNotExist:
             print('Error: token not found')
             time = timezone.now()
             tokenStr = signer.sign(str(time))
-            tokenStr = tokenStr.split(':')[1]
             token = Token(token=tokenStr)   
             token.save()
             return Response({'token':token.token,'userId' : user['id']})
@@ -102,7 +81,33 @@ class AuthView(APIView):
 
 class CheckTokenView(APIView):
     def get(self, request):
-        user, token = CheckingUserData(request.GET['token'], request.GET['userId'])
+        data = {}
+
+        data['token'] = request.GET['token']
+        data['userId'] = request.GET['userId']
+
+        if not ValidateParams(('token', 'userId'), data):
+            return Response(status=401, data={'msg' : 'Missing parameter'})
+        
+        # Проверка есть ли вообще такой пользователь
+        try:
+            user = User.objects.filter(id = data['userId']).values()[:1][0]
+        except ObjectDoesNotExist:
+            print('Error: token or userId not found')
+            return Response(status=403, data={'msg': 'Data is not validate'})
+
+        # Проверка есть ли вообще такой токин
+        try:
+            token = Token.objects.get(token=data.pop('token'), id = user['token_id'], isActive=True)
+        except ObjectDoesNotExist:
+            print('Error: token not found')
+            return Response(status=403, data={'msg': 'Data is not validate'})
+        
+        # Проверка живости токена
+        if token.sellByUTC > timezone.now():
+            print('Token time is up')
+            return Response(status=403, data={'msg':'Token time is up'})
+
         return Response(status=200, data={'msg': 'All good'})
         
         
