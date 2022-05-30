@@ -72,11 +72,44 @@ class AuthView(APIView):
             token.save()
             return Response({'token':token.token,'userId' : user['id']})
         
+        # ИСПРАВИТЬ ЭТО ГОВНО
         # Проверка живости токена
         if token.sellByUTC > timezone.now():
             return Response(status=403, data={'msg':'Token time is up'})
         
         return Response({'token':token.token, 'userId' : user['id']})
+
+class CheckToken(APIView):
+    def get(self, request):
+        data = {}
+
+        for key, value in request.data['params'].items():
+            data.update({key : value})
+
+        if not ValidateParams(('token', 'userId'), data):
+            return Response(status=401, data={'msg' : 'Missing parameter'})
+        
+        # Проверка есть ли вообще такой пользователь
+        try:
+            user = User.objects.filter(id = data['userId']).values()[:1][0]
+        except ObjectDoesNotExist:
+            print('Error: token or userId not found')
+            return Response(status=403, data={'msg': 'Data is not validate'})
+
+        # Проверка есть ли вообще такой токин
+        try:
+            token = Token.objects.get(token=data.pop('token'), id = user['token_id'], isActive=True)
+        except ObjectDoesNotExist:
+            print('Error: token not found')
+            return Response(status=403, data={'msg': 'Data is not validate'})
+        
+        # Проверка живости токена
+        if token.sellByUTC > timezone.now():
+            print('Token time is up')
+            return Response(status=403, data={'msg':'Token time is up'})
+
+        return Response(status=200, data={'msg': 'All good'})
+        
         
 
 def GetDataObject(id):
