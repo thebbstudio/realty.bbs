@@ -42,10 +42,10 @@ class AuthView(APIView):
     def post(self, request):
         
         data = {}
-
-        for key, value in request.data.items():
+        print(request.data)
+        for key, value in request.data['params'].items():
             data.update({key : value})
-
+        print(data)
         if not ValidateParams(('login', 'password'), data):
             return Response(status=401, data={'msg' : 'Missing parameter'})
         
