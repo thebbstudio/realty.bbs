@@ -1,7 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import InputGroupTextLeft from '../../components/InputGroupTextLeft';
-import InputGroupTextRight from '../../components/InputGroupTextRight';
 import InputText from '../../components/InputText';
 import Select from '../../components/Select';
 
@@ -18,7 +17,7 @@ const LocationStep = ({ control }: any) => (
       required
       control={control}
       readOnly
-      plaintext
+      // plaintext
     />
     <InputText
       type="text"

@@ -4,15 +4,26 @@ import { Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import ErrorPage from './ErrorPage';
 import './css/style.css';
+import AuthPage from './AuthPage';
+import RequiredAuth from './hoc/RequiredAuth';
+import AuthProvider from './hoc/AuthProvider';
 
 const App = () => (
-  <Routes>
-    <Route path="/" element={<HomePage />} />
-    <Route path="/form" element={<HomePage />} />
-    <Route path="/table" element={<HomePage />} />
-
-    <Route path="*" element={<ErrorPage />} />
-  </Routes>
+  <AuthProvider>
+    <Routes>
+      <Route
+        path="/"
+        element={(
+          <RequiredAuth>
+            <Route path="form" element={<HomePage />} />
+            <Route path="table" element={<HomePage />} />
+          </RequiredAuth>
+      )}
+      />
+      <Route path="/auth" element={<AuthPage />} />
+      <Route path="*" element={<ErrorPage />} />
+    </Routes>
+  </AuthProvider>
 );
 
 export default App;

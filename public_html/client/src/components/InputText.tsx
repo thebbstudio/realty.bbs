@@ -13,7 +13,9 @@ const InputText = ({ ...props }: IInputText) => (
     <Controller
       name={props.name}
       control={props.control}
-      render={({ field: { onChange, value = props.value, ref } }) => (
+      defaultValue={props.value}
+      rules={{ required: props.required }}
+      render={({ field: { onChange, value, ref } }) => (
         <Form.Control
           type={props.type}
           value={value}

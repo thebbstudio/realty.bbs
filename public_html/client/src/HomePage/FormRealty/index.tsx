@@ -14,7 +14,7 @@ import HttpFormRequest from '../../http/HttpFormRequest';
 const FormRealty = () => {
   const [typeRealty, setTypeRealty] = useState({});
   const [stepForm, setStepForm] = useState(1);
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm<FormData>();
 
   async function sendForm(data: object) {
     const response = await HttpFormRequest.send(data);
@@ -60,36 +60,41 @@ const FormRealty = () => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <h2>{`Шаг ${stepForm} из 4`}</h2>
+      </div>
+      <hr />
       {renderStep(stepForm)}
       <Row>
         <Col className="d-flex justify-content-center">
           <Button
             type="button"
+            variant="outline-primary"
             onClick={() => changeStep('back', stepForm, setStepForm)}
           >
             Назад
           </Button>
         </Col>
-        {stepForm !== 4 ? (
-          <Col className="d-flex justify-content-center">
+        <Col className="d-flex justify-content-center">
+
+          {stepForm !== 4 ? (
             <Button
               type="button"
+              variant="outline-primary"
               onClick={() => changeStep('next', stepForm, setStepForm)}
             >
               Вперед
             </Button>
-          </Col>
-        ) : (
-          <Col className="d-flex justify-content-center">
+          ) : (
             <Button
-              type="button"
-              className="btn-success"
-              onClick={handleSubmit(onSubmit)}
+              type="submit"
+              variant="success"
             >
               Отправить
             </Button>
-          </Col>
-        )}
+          )}
+        </Col>
+
       </Row>
     </Form>
   );
