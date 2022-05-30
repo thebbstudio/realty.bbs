@@ -7,7 +7,7 @@ class Role(models.Model):
     name = models.CharField(max_length=25)
 
 class Token(models.Model):
-    token = models.CharField(max_length=50)
+    token = models.CharField(max_length=100)
     isActive = models.BooleanField(default=True)
     sellByUTC = models.DateTimeField(auto_now=True)
     class Meta:
