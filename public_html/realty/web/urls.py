@@ -4,5 +4,6 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('', ReactView)
+    path('', ReactView),
+    path('table/', ReactView)
 ]
