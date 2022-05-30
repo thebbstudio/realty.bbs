@@ -79,7 +79,7 @@ class AuthView(APIView):
         
         return Response({'token':token.token, 'userId' : user['id']})
 
-class CheckToken(APIView):
+class CheckTokenView(APIView):
     def get(self, request):
         data = {}
 

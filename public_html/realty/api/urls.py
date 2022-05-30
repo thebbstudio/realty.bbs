@@ -9,6 +9,7 @@ urlpatterns = [
     path('getdatarealty', GetDataRealty.as_view()), #
     path('createrealty', CreateRealty.as_view()), #
     path('auth', AuthView.as_view()),
+    path('checktoken', CheckTokenView.as_view())
 
     path('createuser', CreateUser.as_view())
 ]
