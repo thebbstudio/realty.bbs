@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'web.apps.WebConfig',
     'api.apps.ApiConfig',
     'rest_framework',
+    'snippets',
 ]
 
 MIDDLEWARE = [
