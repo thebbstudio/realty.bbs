@@ -15,8 +15,11 @@ const App = () => (
         path="/"
         element={(
           <RequiredAuth>
-            <Route path="form" element={<HomePage />} />
-            <Route path="table" element={<HomePage />} />
+            <Routes>
+              <Route index element={<HomePage />} />
+              <Route path="form" element={<HomePage />} />
+              <Route path="table" element={<HomePage />} />
+            </Routes>
           </RequiredAuth>
       )}
       />

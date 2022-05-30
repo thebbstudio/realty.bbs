@@ -1,23 +1,36 @@
 import React, { createContext, useMemo, useState } from 'react';
 
-export const AuthContext = createContext(null);
+interface IUser {
+  login: string,
+  password: string
+}
+
+interface IAuthContext {
+  user: IUser | null,
+  signIn: (newUser: IUser, callback: any) => void,
+  signOut: (callback: any) => void
+}
+
+export const AuthContext = createContext<IAuthContext | null>(null);
 
 const AuthProvider = ({ children }: any) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<IUser | null>(null);
 
-  function signIn(newUser: any, callback: any) {
+  function signIn(newUser: IUser, callback: any) {
     setUser(newUser);
     callback();
   }
-  function signOut(newUser: any, callback: any) {
+  function signOut(callback: any) {
     setUser(null);
     callback();
   }
 
-  const value = useMemo(() => ({ user, signIn, signOut }), []);
+  const value = useMemo(() => ({ user, signIn, signOut }), [user]);
 
   return (
-    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

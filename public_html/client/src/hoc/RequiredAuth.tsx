@@ -6,12 +6,10 @@ const RequiredAuth = ({ children }: any) => {
   const location = useLocation();
   const user = useAuth();
 
-  if (!user) {
+  if (user?.user === null) {
     return <Navigate to="/auth" state={{ from: location }} />;
   }
-  return (
-    children
-  );
+  return children;
 };
 
 export default RequiredAuth;

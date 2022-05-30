@@ -3,15 +3,28 @@
 import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import InputGroupTextLeft from '../components/InputGroupTextLeft';
 import useAuth from '../hook/useAuth';
 // import cl from './AuthPage.module.css';
 
-const AuthPage = () => {
-  const { control, handleSubmit } = useForm<FormData>();
+type UserSubmitForm = {
+  login: string,
+  password: string
+}
 
-  function onSubmit(data: object) {
-    console.log(data);
+const AuthPage = () => {
+  const { control, handleSubmit } = useForm<UserSubmitForm>();
+  const navigate = useNavigate();
+
+  const user = useAuth();
+
+  function onSubmit(data: UserSubmitForm) {
+    const { login, password } = data;
+
+    user?.signIn({ login, password }, () => {
+      navigate('/');
+    });
   }
 
   return (
