@@ -11,7 +11,7 @@ const TypeRealtyStep = ({ setTypeRealty, setStepForm }: any) => (
         type="button"
         onClick={() => {
           setStepForm((prev: number) => prev + 1);
-          setTypeRealty(() => ({ typeRealty: 'Квартира' }));
+          setTypeRealty(() => ('Квартира'));
         }}
       >
         Квартира
@@ -20,7 +20,7 @@ const TypeRealtyStep = ({ setTypeRealty, setStepForm }: any) => (
         type="button"
         onClick={() => {
           setStepForm((prev: number) => prev + 1);
-          setTypeRealty(() => ({ typeRealty: 'Комната' }));
+          setTypeRealty(() => ('Комната'));
         }}
       >
         Комната
@@ -29,10 +29,10 @@ const TypeRealtyStep = ({ setTypeRealty, setStepForm }: any) => (
         type="button"
         onClick={() => {
           setStepForm((prev: number) => prev + 1);
-          setTypeRealty(() => ({ typeRealty: 'Дача' }));
+          setTypeRealty(() => ('Дом'));
         }}
       >
-        Дача
+        Дом, дача, таунхаус
       </Button>
     </div>
   </>

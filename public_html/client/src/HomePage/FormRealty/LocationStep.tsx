@@ -110,7 +110,7 @@ const LocationStep = ({ control }: any) => (
         <Select
           label="Величина"
           name="valueToMetro"
-          value="Минут пешком"
+          value=""
           options={[
             { value: 'Минут пешком', label: 'Минут пешком' },
             { value: 'Минут транспортом', label: 'Минут транспортом' },

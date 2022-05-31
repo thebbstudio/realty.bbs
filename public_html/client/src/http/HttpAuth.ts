@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import BASE_URL from './config';
 
 class HttpAuth {
@@ -12,15 +12,18 @@ class HttpAuth {
   }
 
   static async checkToken() {
-    console.log('я здесь');
     const response = await axios.get(`${BASE_URL}/api/checktoken`, {
       params: {
         token: localStorage.getItem('token'),
         userId: localStorage.getItem('userId'),
       },
+    }).catch((error: AxiosError) => {
+      if (error.response?.status === 403) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.reload();
+      }
     });
-    console.log('я тут');
-
     return response;
   }
 }

@@ -6,7 +6,7 @@ import Select from '../../components/Select';
 import InputGroupTextRight from '../../components/InputGroupTextRight';
 import InputFile from '../../components/InputFile';
 
-const ParamsRealtyStep = ({ control }: any) => (
+const FlatParamsRealtyStep = ({ control }: any) => (
   <>
     <div className="mb-3 mt-5">
       <h3 className="d-flex justify-content-center">Параметры объекта недвижимости:</h3>
@@ -229,6 +229,20 @@ const ParamsRealtyStep = ({ control }: any) => (
       control={control}
     />
     <Select
+      label="Ремонт"
+      name="repair"
+      value=""
+      options={[
+        { value: 'Косметический', label: 'Косметический' },
+        { value: 'Евро ремонт', label: 'Евро ремонт' },
+        { value: 'Дизайнерский', label: 'Дизайнерский' },
+        { value: 'Ремонт от застройщика', label: 'Ремонт от застройщика' },
+        { value: 'Без ремонта', label: 'Без ремонта' },
+      ]}
+      required
+      control={control}
+    />
+    <Select
       label="Балкон / Лоджия"
       name="viewWindows"
       value=""
@@ -341,4 +355,4 @@ const ParamsRealtyStep = ({ control }: any) => (
     />
   </>
 );
-export default ParamsRealtyStep;
+export default FlatParamsRealtyStep;

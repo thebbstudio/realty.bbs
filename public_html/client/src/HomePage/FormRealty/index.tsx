@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import {
-  Button, Col, Form, Row,
-} from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 // steps
 import LocationStep from './LocationStep';
 import OwnerStep from './OwnerStep';
-import ParamsRealtyStep from './ParamsRealtyStep';
+import FlatParamsRealtyStep from './FlatParamsRealtyStep';
 import TypeRealtyStep from './TypeRealtyStep';
 // http
 import HttpFormRequest from '../../http/HttpFormRequest';
+import ButtonsBackNext from './ButtonsBackNext';
+import RoomParamsRealtyStep from './RoomParamsRealtyStep';
+import HouseParamsRealtyStep from './HouseParamsRealtyStep';
 
 const FormRealty = () => {
-  const [typeRealty, setTypeRealty] = useState({});
+  const [typeRealty, setTypeRealty] = useState('');
   const [stepForm, setStepForm] = useState(1);
   const { handleSubmit, control } = useForm<FormData>();
 
@@ -21,28 +22,26 @@ const FormRealty = () => {
     return response;
   }
 
-  function changeStep(command: string, step: number, setStep: any) {
-    if (command === 'next' && step < 4) {
-      setStep((prev: number) => prev + 1);
-    }
-
-    if (command === 'back' && step > 1) {
-      setStep((prev: number) => prev - 1);
-    }
-  }
-
   function renderStep(_stepForm: number) {
     if (_stepForm === 1) {
       return <TypeRealtyStep setStepForm={setStepForm} setTypeRealty={setTypeRealty} />;
     }
     if (_stepForm === 2) {
-      return <ParamsRealtyStep setStepForm={setStepForm} control={control} />;
+      if (typeRealty === 'Квартира') {
+        return <FlatParamsRealtyStep control={control} />;
+      }
+      if (typeRealty === 'Комната') {
+        return <RoomParamsRealtyStep control={control} />;
+      }
+      if (typeRealty === 'Дом') {
+        return <HouseParamsRealtyStep control={control} />;
+      }
     }
     if (_stepForm === 3) {
-      return <OwnerStep setStepForm={setStepForm} control={control} />;
+      return <OwnerStep control={control} />;
     }
     if (_stepForm === 4) {
-      return <LocationStep setStepForm={setStepForm} control={control} />;
+      return <LocationStep control={control} />;
     }
     return 'error';
   }
@@ -50,10 +49,11 @@ const FormRealty = () => {
   function onSubmit(data: object) {
     const request = {
       token: localStorage.getItem('token'),
+      userId: localStorage.getItem('userId'),
+      typeRealty,
       ...data,
-      ...typeRealty,
     };
-    console.log(request);
+    console.log('форма отправилась');
     const response = sendForm(request);
 
     return response;
@@ -65,38 +65,19 @@ const FormRealty = () => {
         <h2>{`Шаг ${stepForm} из 4`}</h2>
       </div>
       <hr />
+      <ButtonsBackNext
+        stepForm={stepForm}
+        setStepForm={setStepForm}
+        typeRealty={typeRealty}
+        setTypeRealty={setTypeRealty}
+      />
       {renderStep(stepForm)}
-      <Row>
-        <Col className="d-flex justify-content-center">
-          <Button
-            type="button"
-            variant="outline-primary"
-            onClick={() => changeStep('back', stepForm, setStepForm)}
-          >
-            Назад
-          </Button>
-        </Col>
-        <Col className="d-flex justify-content-center">
-
-          {stepForm !== 4 ? (
-            <Button
-              type="button"
-              variant="outline-primary"
-              onClick={() => changeStep('next', stepForm, setStepForm)}
-            >
-              Вперед
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              variant="success"
-            >
-              Отправить
-            </Button>
-          )}
-        </Col>
-
-      </Row>
+      <ButtonsBackNext
+        stepForm={stepForm}
+        setStepForm={setStepForm}
+        typeRealty={typeRealty}
+        setTypeRealty={setTypeRealty}
+      />
     </Form>
   );
 };
