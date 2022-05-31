@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, Navigate } from 'react-router-dom';
+import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import useAuth from '../hook/useAuth';
 import HttpAuth from '../http/HttpAuth';
 
@@ -12,7 +12,7 @@ const RequiredAuth = ({ children }: any) => {
     if (!response) {
       return <Navigate to="/auth" state={{ from: location }} />;
     }
-    return children;
+    return <Outlet />;
   }
 
   checkToken();
@@ -21,7 +21,7 @@ const RequiredAuth = ({ children }: any) => {
     return <Navigate to="/auth" state={{ from: location }} />;
   }
 
-  return children;
+  return <Outlet />;
 };
 
 export default RequiredAuth;

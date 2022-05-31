@@ -1,14 +1,14 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import FormRealty from './FormRealty';
+import { Outlet } from 'react-router-dom';
 import Header from './Header';
 
 const HomePage = () => (
   <>
     <Header />
     <main>
-      <Container style={{ maxWidth: '600px' }}>
-        <FormRealty />
+      <Container fluid>
+        <Outlet />
       </Container>
     </main>
   </>

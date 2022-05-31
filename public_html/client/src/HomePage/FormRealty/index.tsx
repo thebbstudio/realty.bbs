@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { Container, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 // steps
 import LocationStep from './LocationStep';
@@ -60,25 +60,27 @@ const FormRealty = () => {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <h2>{`Шаг ${stepForm} из 4`}</h2>
-      </div>
-      <hr />
-      <ButtonsBackNext
-        stepForm={stepForm}
-        setStepForm={setStepForm}
-        typeRealty={typeRealty}
-        setTypeRealty={setTypeRealty}
-      />
-      {renderStep(stepForm)}
-      <ButtonsBackNext
-        stepForm={stepForm}
-        setStepForm={setStepForm}
-        typeRealty={typeRealty}
-        setTypeRealty={setTypeRealty}
-      />
-    </Form>
+    <Container style={{ maxWidth: '600px' }}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <h2>{`Шаг ${stepForm} из 4`}</h2>
+        </div>
+        <hr />
+        <ButtonsBackNext
+          stepForm={stepForm}
+          setStepForm={setStepForm}
+          typeRealty={typeRealty}
+          setTypeRealty={setTypeRealty}
+        />
+        {renderStep(stepForm)}
+        <ButtonsBackNext
+          stepForm={stepForm}
+          setStepForm={setStepForm}
+          typeRealty={typeRealty}
+          setTypeRealty={setTypeRealty}
+        />
+      </Form>
+    </Container>
   );
 };
 
