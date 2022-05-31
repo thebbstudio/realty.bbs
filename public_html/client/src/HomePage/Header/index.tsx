@@ -51,8 +51,11 @@ const Header = () => {
         <Button type="button" variant="outline-primary" className="me-2">Сотрудники</Button>
         <Button
           type="button"
-          variant="outline-danger"
-          onClick={() => user?.signOut(() => localStorage.removeItem('token'))}
+          variant="danger"
+          onClick={() => user?.signOut(() => {
+            console.log('выход из аккаунта');
+            localStorage.removeItem('token');
+          })}
         >
           Выход
         </Button>
