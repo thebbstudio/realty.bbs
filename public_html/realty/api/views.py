@@ -134,7 +134,7 @@ class GetDataRealty(APIView):
         for key, value in request.GET.items():
             data.update({key : value})
 
-        if not ValidateParams(('token', 'userId'), data):
+        if not ValidateParams(('token', 'userId', 'typeRealty'), data):
             return Response(status=401, data={'msg' : 'Missing parameter'})
         
         # Проверка есть ли вообще такой пользователь
