@@ -82,7 +82,7 @@ class AuthView(APIView):
 class CheckTokenView(APIView):
     def get(self, request):
         data = {}
-
+        
         data['token'] = request.GET['token']
         data['userId'] = request.GET['userId']
 
