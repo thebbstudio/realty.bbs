@@ -125,7 +125,7 @@ def GetObjData(realtyId):
     # for field in RealtyData.objects.filter(obj_Id=realtyId).values():
     #     resp.append({field['name']: field['value']})
     # return resp
-    return RealtyData.objects.filter(obj=realtyId).values()
+    return RealtyData.objects.filter(obj=realtyId).values('id', 'name', 'value')
 
 class GetDataRealty(APIView):
     def get(self,request):
