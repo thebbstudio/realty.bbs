@@ -7,23 +7,41 @@ import './css/style.css';
 import AuthPage from './AuthPage';
 import RequiredAuth from './hoc/RequiredAuth';
 import AuthProvider from './hoc/AuthProvider';
+import FormRealty from './HomePage/FormRealty';
+import TableRealty from './HomePage/TableRealty';
 
 const App = () => (
+  // <AuthProvider>
+  //   <Routes>
+  //     <Route path="/auth" element={<AuthPage />} />
+  //     <Route
+  //       path="/"
+  //       element={(
+  //         <RequiredAuth>
+  //           <Routes>
+  //             <Route path="/" element={<HomePage />}>
+  //               <Route path="form" element={<FormRealty />} />
+  //               <Route path="table" element={<TableRealty />} />
+  //             </Route>
+  //           </Routes>
+  //         </RequiredAuth>
+  //     )}
+  //     />
+  //     <Route path="*" element={<ErrorPage />} />
+  //   </Routes>
+  // </AuthProvider>
   <AuthProvider>
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
       <Route
         path="/"
-        element={(
-          <RequiredAuth>
-            <Routes>
-              <Route index element={<HomePage />} />
-              {/* <Route path="form" element={<HomePage />} />
-              <Route path="table" element={<HomePage />} /> */}
-            </Routes>
-          </RequiredAuth>
-      )}
-      />
+        element={<RequiredAuth />}
+      >
+        <Route path="/" element={<HomePage />}>
+          <Route path="form" element={<FormRealty />} />
+          <Route path="table" element={<TableRealty />} />
+        </Route>
+      </Route>
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   </AuthProvider>

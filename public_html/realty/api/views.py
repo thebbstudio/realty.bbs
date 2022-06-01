@@ -167,7 +167,7 @@ class GetDataRealty(APIView):
         for realty in realties:
             print(realty)
             resp.append({'id' : realty['id'], 
-                        'userFullName': GetUser(realty['id'], pravoHave), 
+                        'userFullName': None, 
                         'data' : GetObjData(realty['id'])})
 
         return Response(status=200, data=resp)
