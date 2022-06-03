@@ -121,11 +121,11 @@ def GetUser(id, pravoHave):
     return User.objects.get(id=id).fullName
 
 def GetObjData(realtyId):
-    # resp = []
-    # for field in RealtyData.objects.filter(obj_Id=realtyId).values():
-    #     resp.append({field['name']: field['value']})
-    # return resp
+    
     return RealtyData.objects.filter(obj=realtyId).values('id', 'name', 'value')
+
+# TODO:
+# Были данные о собственнике
 
 class GetDataRealty(APIView):
     def get(self,request):
@@ -156,10 +156,10 @@ class GetDataRealty(APIView):
             return Response(status=403, data={'msg':'Token time is up'})
 
         if Role.objects.get(id = user['role_id']).name in ('admin','super admin', 'manager'):
-            realties = Realty.objects.all().values()
+            realties = Realty.objects.filter(typeRealty = data['typeRealty']).values()
             pravoHave = True 
         else:
-            realties = Realty.objects.filter(user_id = user.id).values()
+            realties = Realty.objects.filter(user_id = user.id, typeRealty = data['typeRealty']).values()
             pravoHave = False
 
         resp = []
@@ -168,10 +168,12 @@ class GetDataRealty(APIView):
             print(realty)
             resp.append({'id' : realty['id'], 
                         'userFullName': None, 
-                        'data' : GetObjData(realty['id'])})
+                        'data' : GetObjData(realty['id']).extend(Owner.objects.filter(id=realty['owner_id']).values())})
 
         return Response(status=200, data=resp)
 
+# TODO:
+# Записывать данные собвстенникак в таблицу собственника
 
 class CreateRealty(APIView):
     def post(self, request):
@@ -222,6 +224,7 @@ class CreateRealty(APIView):
             RealtyData(obj_id=realty.id, name=key, value=value).save()
 
         return Response(status=200, data={'msg': 'Write realty done.'})
+
 
 class DeleteRealty(APIView):
     def delete(self, request):
@@ -327,6 +330,7 @@ def PropertyOwner(field, userId):
         elif field == 'fullNameOwner':
             resp.append(owner.fullName)    
     return resp
+
 
 class GetPropertyOwner(APIView):
     def get(self, request):

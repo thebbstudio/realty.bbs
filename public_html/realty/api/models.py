@@ -35,10 +35,11 @@ class Owner(models.Model):
 class Realty(models.Model):
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    typeRealty = models.CharField(max_length=20, default='flat')
     
 
 class RealtyData(models.Model):
-    obj = models.ForeignKey(Realty, on_delete=models.CASCADE)
+    realty = models.ForeignKey(Realty, on_delete=models.CASCADE)
     name = models.CharField(max_length=25)
     value = models.CharField(max_length=200)
 
