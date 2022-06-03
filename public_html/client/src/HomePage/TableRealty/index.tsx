@@ -31,17 +31,17 @@ const TableRealty = () => {
     const response = await HttpTable.getData(typeRealty);
     const arrRealty: Array<Flat | Room | House> = [];
 
-    if (selectRealty === 'Квартиры') {
+    if (selectRealty === 'Квартира') {
       response.data.forEach((obj: IResponseData) => {
         const realty = new Flat(obj.id, obj.data);
         arrRealty.push(realty);
       });
-    } else if (selectRealty === 'Комнаты') {
+    } else if (selectRealty === 'Комната') {
       response.data.forEach((obj: IResponseData) => {
         const realty = new Flat(obj.id, obj.data);
         arrRealty.push(realty);
       });
-    } else if (selectRealty === 'Дома') {
+    } else if (selectRealty === 'Дом') {
       response.data.forEach((obj: IResponseData) => {
         const realty = new Flat(obj.id, obj.data);
         arrRealty.push(realty);
@@ -82,7 +82,6 @@ const TableRealty = () => {
               <tr>
                 <Thead>ID</Thead>
                 <Thead>Ответственный</Thead>
-                <Thead>Тип недвижимости</Thead>
                 <Thead>Тип дома</Thead>
                 <Thead>Контакты</Thead>
                 <Thead>Расположение</Thead>
@@ -107,8 +106,6 @@ const TableRealty = () => {
                   <Cell>{realty.realtyId}</Cell>
                   {/* Ответственный */}
                   <Cell>{index}</Cell>
-                  {/* Тип недвижимости */}
-                  <Cell>{realty.typeRealty.value}</Cell>
                   {/* Тип дома */}
                   <Cell>{realty.typeHouse.value}</Cell>
                   {/* Контакты */}

@@ -195,7 +195,7 @@ class CreateRealty(APIView):
         
         # Проверка есть ли вообще такой пользователь
         try:
-            user = User.objects.filter(id = data['userId']).valeues()[:1][0]
+            user = User.objects.filter(id = data['userId']).values()[:1][0]
         except ObjectDoesNotExist:
             print('Error: token or userId not found')
             return Response(status=403, data={'msg': 'Data is not validate'})
