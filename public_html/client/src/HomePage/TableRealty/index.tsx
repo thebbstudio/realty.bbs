@@ -1,19 +1,14 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
+import {
+  Col, Form, Row, Table,
+} from 'react-bootstrap';
 import HttpTable from '../../http/HttpTable';
 import Flat from '../../models/Flat';
+import House from '../../models/House';
+import Room from '../../models/Room';
 import Cell from './Cell';
-// import Realty from '../../models/Realty';
-
-// TODO:
-//  - Нормальные названия колонок
-//  - Показать/скрыть столбцы
-//
-//
-//
-//
-//
+import Thead from './Thead';
 
 export type Data = {
   id: number,
@@ -29,33 +24,55 @@ export interface IResponseData {
 }
 
 const TableRealty = () => {
-  const [data, setData] = useState<Flat[]>();
+  const [data, setData] = useState<Array<Flat | Room | House>>();
+  const [selectRealty, setSelectRealty] = useState<string>('Квартиры');
 
   async function getData() {
     const response = await HttpTable.getData();
-    // console.log(response.data);
-    const arrObjs: Flat[] = [];
-    response.data.forEach((obj: IResponseData) => {
-      const realty = new Flat(obj.id, obj.data);
-      arrObjs.push(realty);
-    });
-    console.log(arrObjs);
-    console.log(response.data);
+    const arrRealty: Array<Flat | Room | House> = [];
 
-    setData(arrObjs);
+    if (selectRealty === 'Квартиры') {
+      response.data.forEach((obj: IResponseData) => {
+        const realty = new Flat(obj.id, obj.data);
+        arrRealty.push(realty);
+      });
+    } else if (selectRealty === 'Комнаты') {
+      response.data.forEach((obj: IResponseData) => {
+        const realty = new Flat(obj.id, obj.data);
+        arrRealty.push(realty);
+      });
+    } else if (selectRealty === 'Дома') {
+      response.data.forEach((obj: IResponseData) => {
+        const realty = new Flat(obj.id, obj.data);
+        arrRealty.push(realty);
+      });
+    }
+    setData(arrRealty);
   }
-
-  // console.log(data);
 
   useEffect(() => {
     getData();
-    // console.log(data);
-  }, []);
+  }, [selectRealty]);
 
   return (
     <>
       <div>
         <h3>Таблица</h3>
+      </div>
+      <div>
+        <Row>
+          <Col md={3}>
+            <Form.Group className="mb-3">
+              <Form.Label>Тип недвижимости:</Form.Label>
+              <Form.Select value={selectRealty} onChange={(e) => setSelectRealty(e.target.value)}>
+                <option value="Квартиры">Квартиры</option>
+                <option value="Комнаты">Комнаты</option>
+                <option value="Дома">Дома</option>
+              </Form.Select>
+            </Form.Group>
+          </Col>
+        </Row>
+
       </div>
       {data !== undefined ? (
         <div className="overflow-scroll">
@@ -63,66 +80,72 @@ const TableRealty = () => {
             {/* {data[0]?.data.map((row) => <col className={row.name} key={row.id} />)} */}
             <thead className="table-light">
               <tr>
-                <th className="text-nowrap px-3 py-2 text-center">ID</th>
-                <th className="text-nowrap px-3 py-2 text-center">Ответственный</th>
-                <th className="text-nowrap px-3 py-2 text-center">{data[0].typeRealty.label}</th>
-                <th className="text-nowrap px-3 py-2 text-center">Контакты</th>
-                <th className="text-nowrap px-3 py-2 text-center">{data[0].location.label}</th>
-                <th className="text-nowrap px-3 py-2 text-center">{data[0].populationCenter.label}</th>
-                <th className="text-nowrap px-3 py-2 text-center">{data[0].district.label}</th>
-                <th className="text-nowrap px-3 py-2 text-center">Адрес</th>
-                <th className="text-nowrap px-3 py-2 text-center">{data[0].metro.label}</th>
-                <th className="text-nowrap px-3 py-2 text-center">{data[0].toMetro.label}</th>
-
+                <Thead>ID</Thead>
+                <Thead>Ответственный</Thead>
+                <Thead>Тип недвижимости</Thead>
+                <Thead>Тип дома</Thead>
+                <Thead>Контакты</Thead>
+                <Thead>Расположение</Thead>
+                <Thead>Населенный пункт</Thead>
+                <Thead>Район</Thead>
+                <Thead>Адрес</Thead>
+                <Thead>Этажей</Thead>
+                <Thead>Метро</Thead>
+                <Thead>До метро</Thead>
+                <Thead>Цена, руб</Thead>
+                <Thead>Фотографии</Thead>
+                <Thead>Год постройки</Thead>
+                <Thead>S. общ.</Thead>
+                <Thead>S. кух.</Thead>
+                <Thead>Ремонт</Thead>
               </tr>
             </thead>
             <tbody>
-
               {data?.map((realty, index) => (
                 <tr key={index}>
-                  <Cell className="text-nowrap px-3 py-2 text-center" key={realty.realtyId + index}>
-                    {realty.realtyId}
-                  </Cell>
-
-                  <Cell className="text-nowrap px-3 py-2 text-center" key={index}>
-                    {index}
-                  </Cell>
-
-                  <Cell className="text-nowrap px-3 py-2 text-center" key={realty.typeRealty.id}>
-                    {realty.typeRealty.value}
-                  </Cell>
+                  {/* ID */}
+                  <Cell>{realty.realtyId}</Cell>
+                  {/* Ответственный */}
+                  <Cell>{index}</Cell>
+                  {/* Тип недвижимости */}
+                  <Cell>{realty.typeRealty.value}</Cell>
+                  {/* Тип дома */}
+                  <Cell>{realty.typeHouse.value}</Cell>
+                  {/* Контакты */}
                   {/* FIXME: исправить потом и сделать как надо (модульное окно с данными) */}
-                  <Cell className="text-nowrap px-3 py-2 text-center" key={realty.ownerEmail.id}>
-                    {realty.ownerEmail.value}
-                  </Cell>
-
-                  <Cell className="text-nowrap px-3 py-2 text-center" key={realty.location.id}>
-                    {realty.location.value}
-                  </Cell>
-
-                  <Cell className="text-nowrap px-3 py-2 text-center" key={realty.populationCenter.id}>
-                    {realty.populationCenter.value}
-                  </Cell>
-
-                  <Cell className="text-nowrap px-3 py-2 text-center" key={realty.district.id}>
-                    {realty.district.value}
-                  </Cell>
-
-                  <Cell className="text-nowrap px-3 py-2 text-center" key={realty.street.id}>
+                  <Cell>{realty.ownerEmail.value}</Cell>
+                  {/* Расположение */}
+                  <Cell>{realty.location.value}</Cell>
+                  {/* Населенный пункт */}
+                  <Cell>{realty.populationCenter.value}</Cell>
+                  {/* Район */}
+                  <Cell>{realty.district.value}</Cell>
+                  {/* Адрес */}
+                  <Cell>
                     {`ул. ${realty.street.value}, д. ${realty.numberHouse.value}, кв ${realty.numberApartment.value}`}
                   </Cell>
-
-                  <Cell className="text-nowrap px-3 py-2 text-center" key={realty.metro.id}>
-                    {realty.metro.value}
-                  </Cell>
-
-                  <Cell className="text-nowrap px-3 py-2 text-center" key={realty.toMetro.id}>
+                  {/* Этажей */}
+                  <Cell>{realty.maxFloor.value}</Cell>
+                  {/* Метро */}
+                  <Cell>{realty.metro.value}</Cell>
+                  {/* До метро */}
+                  <Cell>
                     {`${realty.toMetro.value} ${realty.valueToMetro.value}`}
                   </Cell>
-
+                  {/* Цена, руб */}
+                  <Cell>{realty.costRub.value}</Cell>
+                  {/* Фото */}
+                  <Cell>{realty.photos.value}</Cell>
+                  {/* Год постройки */}
+                  <Cell>{realty.yearConstruction.value}</Cell>
+                  {/* S. общ. */}
+                  <Cell>{realty.areaTotal.value}</Cell>
+                  {/* S. кух. */}
+                  <Cell>{realty.areaKitchen.value}</Cell>
+                  {/* Ремонт */}
+                  <Cell>{realty.repair.value}</Cell>
                 </tr>
               ))}
-
             </tbody>
           </Table>
         </div>
