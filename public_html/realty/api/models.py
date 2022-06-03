@@ -29,7 +29,7 @@ class User(models.Model):
 class Owner(models.Model):
     fullName = models.CharField(max_length=255)
     phone = models.CharField(max_length=12)
-    email = models.CharField(max_length=50)
+    email = models.CharField(max_length=50, null=True)
 
 
 class Realty(models.Model):
