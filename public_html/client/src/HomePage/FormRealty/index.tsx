@@ -53,6 +53,7 @@ const FormRealty = () => {
       typeRealty,
       ...data,
     };
+    console.log(request);
     console.log('форма отправилась');
     const response = sendForm(request);
 

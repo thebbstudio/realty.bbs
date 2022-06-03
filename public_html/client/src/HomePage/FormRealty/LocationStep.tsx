@@ -53,7 +53,7 @@ const LocationStep = ({ control }: any) => (
         <InputGroupTextLeft
           type="text"
           label="Дом"
-          name="house"
+          name="numberHouse"
           placeholder="Введите номер дома"
           value=""
           required
@@ -67,7 +67,7 @@ const LocationStep = ({ control }: any) => (
         <InputText
           type="text"
           label="Корпус"
-          name="caseNumber"
+          name="numberCase"
           placeholder="Введите название корпуса"
           value=""
           control={control}
@@ -77,7 +77,7 @@ const LocationStep = ({ control }: any) => (
         <InputText
           type="text"
           label="Квартира"
-          name="apartmentNumber"
+          name="numberApartment"
           placeholder="Введите номер квартиры"
           value=""
           control={control}
