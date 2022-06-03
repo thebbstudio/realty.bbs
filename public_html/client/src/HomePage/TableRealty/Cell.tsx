@@ -1,13 +1,11 @@
 import React from 'react';
 
-interface ICell {
-  className: string,
-  key: React.Key,
+interface IProps {
   children: React.ReactNode
 }
 
-const Cell = ({ key, children, className }: ICell) => (
-  <td className={className} key={key}>{children}</td>
+const Cell = ({ children }: IProps) => (
+  <td className="text-nowrap text-center px-2 py-1">{children}</td>
 );
 
 export default Cell;
