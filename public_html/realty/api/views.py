@@ -210,7 +210,7 @@ class CreateRealty(APIView):
             phone = data.pop('phoneOwner')
             email = None
             if 'email' in data.keys():
-                email = data.pop('email')
+                email = data.pop('emailOwner')
         except Exception:
             print(data)
             print('Error: object `owner` dont found')
@@ -219,7 +219,7 @@ class CreateRealty(APIView):
         owner = Owner(fullName=fullName, phone=phone, email=email)
         owner.save()
 
-        realty = Realty(owner_id=owner.id, user_id=user['id'])
+        realty = Realty(owner_id=owner.id, user_id=user['id'], typeRealty=data.pop('typeRealty'))
         realty.save()
         # ПИЗДЕЦ БЛЯТЬ ФОТО ХУЁВО СОХРАНИТ
         for key, value in data.items():
