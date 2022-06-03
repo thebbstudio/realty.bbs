@@ -136,6 +136,10 @@ class GetDataRealty(APIView):
 
         if not ValidateParams(('token', 'userId', 'typeRealty'), data):
             return Response(status=401, data={'msg' : 'Missing parameter'})
+
+        tr = {'flat' : 'Квартира', 'room' : 'Комната', 'house' : 'Дом'}
+
+        typeRealty = tr[data['typeRealty']]
         
         # Проверка есть ли вообще такой пользователь
         try:
@@ -156,10 +160,10 @@ class GetDataRealty(APIView):
             return Response(status=403, data={'msg':'Token time is up'})
 
         if Role.objects.get(id = user['role_id']).name in ('admin','super admin', 'manager'):
-            realties = Realty.objects.filter(typeRealty = data['typeRealty']).values()
+            realties = Realty.objects.filter(typeRealty = typeRealty).values()
             pravoHave = True 
         else:
-            realties = Realty.objects.filter(user_id = user.id, typeRealty = data['typeRealty']).values()
+            realties = Realty.objects.filter(user_id = user.id, typeRealty = typeRealty).values()
             pravoHave = False
 
         resp = []

@@ -35,7 +35,7 @@ class Owner(models.Model):
 class Realty(models.Model):
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    typeRealty = models.CharField(max_length=20, default='flat')
+    typeRealty = models.CharField(max_length=20, default='Квартира')
     
 
 class RealtyData(models.Model):
