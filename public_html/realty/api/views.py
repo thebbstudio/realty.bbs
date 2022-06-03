@@ -121,7 +121,7 @@ def GetUser(id, pravoHave):
     return User.objects.get(id=id).fullName
 
 def GetObjData(realtyId):
-    return RealtyData.objects.filter(obj=realtyId).values('id', 'name', 'value')
+    return RealtyData.objects.filter(realty_id=realtyId).values('id', 'name', 'value')
 
 # TODO:
 # Были данные о собственнике

@@ -25,10 +25,10 @@ export interface IResponseData {
 
 const TableRealty = () => {
   const [data, setData] = useState<Array<Flat | Room | House>>();
-  const [selectRealty, setSelectRealty] = useState<string>('Квартиры');
+  const [selectRealty, setSelectRealty] = useState<string>('Квартира');
 
-  async function getData() {
-    const response = await HttpTable.getData();
+  async function getData(typeRealty: string) {
+    const response = await HttpTable.getData(typeRealty);
     const arrRealty: Array<Flat | Room | House> = [];
 
     if (selectRealty === 'Квартиры') {
@@ -51,7 +51,7 @@ const TableRealty = () => {
   }
 
   useEffect(() => {
-    getData();
+    getData(selectRealty);
   }, [selectRealty]);
 
   return (
@@ -65,9 +65,9 @@ const TableRealty = () => {
             <Form.Group className="mb-3">
               <Form.Label>Тип недвижимости:</Form.Label>
               <Form.Select value={selectRealty} onChange={(e) => setSelectRealty(e.target.value)}>
-                <option value="Квартиры">Квартиры</option>
-                <option value="Комнаты">Комнаты</option>
-                <option value="Дома">Дома</option>
+                <option value="Квартира">Квартиры</option>
+                <option value="Комната">Комнаты</option>
+                <option value="Дом">Дома</option>
               </Form.Select>
             </Form.Group>
           </Col>
