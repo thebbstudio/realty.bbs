@@ -223,7 +223,7 @@ class CreateRealty(APIView):
         realty.save()
         # ПИЗДЕЦ БЛЯТЬ ФОТО ХУЁВО СОХРАНИТ
         for key, value in data.items():
-            RealtyData(obj_id=realty.id, name=key, value=value).save()
+            RealtyData(realty_id=realty.id, name=key, value=value).save()
 
         return Response(status=200, data={'msg': 'Write realty done.'})
 
