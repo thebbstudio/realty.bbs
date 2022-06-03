@@ -120,8 +120,12 @@ def GetUser(id, pravoHave):
         return None
     return User.objects.get(id=id).fullName
 
-def GetObjData(realtyId):
-    return RealtyData.objects.filter(realty_id=realtyId).values('id', 'name', 'value')
+def GetObjData(realtyId, ownerId = None):
+    resp = []
+    if ownerId:
+        resp.extend(Owner.objects.filter(id=ownerId).values())
+    resp.extend(RealtyData.objects.filter(realty_id=realtyId).values('id', 'name', 'value'))
+    return resp
 
 # TODO:
 # Были данные о собственнике
@@ -149,9 +153,9 @@ class GetDataRealty(APIView):
 
         # Проверка есть ли вообще такой токин
         try:
-            token = Token.objects.get(token=data.pop('token'), id = user['token_id'], isActive=True)
+            token = Token.objects.get(token=data['token'], id = user['token_id'], isActive=True)
         except ObjectDoesNotExist:
-            print('Error: token not found')
+            print('Error: token not found', data['token'],user['token_id'])
             return Response(status=403, data={'msg': 'Data is not validate'})
         
         # Проверка живости токена
@@ -171,7 +175,7 @@ class GetDataRealty(APIView):
             print(realty)
             resp.append({'id' : realty['id'], 
                         'userFullName': None, 
-                        'data' : GetObjData(realty['id']).extend(Owner.objects.filter(id=realty['owner_id']).values())})
+                        'data' : GetObjData(realty['id'], realty['owner_id'])})
 
         return Response(status=200, data=resp)
 
@@ -191,7 +195,7 @@ class CreateRealty(APIView):
         
         # Проверка есть ли вообще такой пользователь
         try:
-            user = User.objects.filter(id = data['userId']).values()[:1][0]
+            user = User.objects.filter(id = data['userId']).valeues()[:1][0]
         except ObjectDoesNotExist:
             print('Error: token or userId not found')
             return Response(status=403, data={'msg': 'Data is not validate'})
