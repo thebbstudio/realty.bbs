@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react';
 import {
-  Col, Form, Row, Table,
+  Col, Container, Form, Row, Table,
 } from 'react-bootstrap';
 import HttpTable from '../../http/HttpTable';
 import Flat from '../../models/Flat';
@@ -55,7 +55,7 @@ const TableRealty = () => {
   }, [selectRealty]);
 
   return (
-    <>
+    <Container>
       <div>
         <h3>Таблица</h3>
       </div>
@@ -150,7 +150,7 @@ const TableRealty = () => {
           </Table>
         </div>
       ) : ''}
-    </>
+    </Container>
   );
 };
 

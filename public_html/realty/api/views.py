@@ -208,7 +208,7 @@ class CreateRealty(APIView):
         try:
             fullName = data.pop('fullNameOwner')
             phone = data.pop('phoneOwner')
-            email = None
+            email = ''
             if 'email' in data.keys():
                 email = data.pop('email')
         except Exception:
