@@ -6,3 +6,7 @@
   content: " * ";
   color: #dc3545;
 }
+
+.table-hover {
+  cursor: pointer;
+}
