@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { RealtyContext } from '../../hoc/RealtyProvider';
-import HttpTable from '../../http/HttpTable';
+import HttpRealtyData from '../../http/HttpRealtyData';
 import Flat from '../../models/Flat';
 import House from '../../models/House';
 import Room from '../../models/Room';
@@ -32,7 +32,7 @@ const TableRealty = () => {
   const context = useContext(RealtyContext);
 
   async function getData(typeRealty: string) {
-    const response = await HttpTable.getData(typeRealty);
+    const response = await HttpRealtyData.getTypeRealtyAll(typeRealty);
     const arrRealty: Array<Flat | Room | House> = [];
 
     if (selectRealty === 'Квартира') {
@@ -111,7 +111,7 @@ const TableRealty = () => {
               {data?.map((realty, index) => (
                 <tr
                   className="realtyId"
-                  onClick={() => handleClickRow(realty, index)}
+                  onClick={() => handleClickRow(realty, realty.realtyId)}
                   key={index}
                 >
                   {/* ID */}

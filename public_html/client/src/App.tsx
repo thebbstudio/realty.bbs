@@ -11,34 +11,14 @@ import FormRealty from './HomePage/FormRealty';
 import TableRealty from './HomePage/TableRealty';
 import RealtyIdPage from './RealtyIdPage';
 import RealtyProvider from './hoc/RealtyProvider';
+import EditRealty from './RealtyIdPage/EditRealty';
+import RealtyIdView from './RealtyIdPage/RealtyIdView';
 
 const App = () => (
-  // <AuthProvider>
-  //   <Routes>
-  //     <Route path="/auth" element={<AuthPage />} />
-  //     <Route
-  //       path="/"
-  //       element={(
-  //         <RequiredAuth>
-  //           <Routes>
-  //             <Route path="/" element={<HomePage />}>
-  //               <Route path="form" element={<FormRealty />} />
-  //               <Route path="table" element={<TableRealty />} />
-  //             </Route>
-  //           </Routes>
-  //         </RequiredAuth>
-  //     )}
-  //     />
-  //     <Route path="*" element={<ErrorPage />} />
-  //   </Routes>
-  // </AuthProvider>
   <AuthProvider>
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
-      <Route
-        path="/"
-        element={<RequiredAuth />}
-      >
+      <Route path="/" element={<RequiredAuth />}>
         <Route path="/" element={<HomePage />}>
           <Route path="form" element={<FormRealty />} />
           <Route
@@ -48,8 +28,10 @@ const App = () => (
                 <Routes>
                   <Route index element={<TableRealty />} />
                   <Route path="realty" element={<RealtyIdPage />}>
-                    <Route path=":realtyId" element={<RealtyIdPage />} />
+                    <Route path=":realtyId" element={<RealtyIdView />} />
+                    <Route path=":realtyId/edit" element={<EditRealty />} />
                   </Route>
+                  <Route path="*" element={<ErrorPage />} />
                 </Routes>
               </RealtyProvider>
           )}

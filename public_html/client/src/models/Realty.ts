@@ -32,6 +32,7 @@ interface IRealty {
 
   // info about params
   costRub: InfoAboutField
+  rooms: InfoAboutField
   heightCeiling?: InfoAboutField
   areaTotal: InfoAboutField
   areaKitchen?: InfoAboutField
@@ -63,6 +64,7 @@ class Realty implements IRealty {
   toMetro;
   valueToMetro;
   costRub;
+  rooms;
   heightCeiling;
   areaTotal;
   areaKitchen;
@@ -136,6 +138,10 @@ class Realty implements IRealty {
     this.costRub = {
       label: 'Цена',
       ...data.filter((el) => el.name === 'costRub')[0],
+    };
+    this.rooms = {
+      label: 'Количество комнат',
+      ...data.filter((el) => el.name === 'rooms')[0],
     };
     this.heightCeiling = {
       label: 'Высота потолка',

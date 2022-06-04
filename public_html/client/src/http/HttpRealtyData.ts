@@ -1,8 +1,8 @@
 import axios from 'axios';
 import BASE_URL from './config';
 
-class HttpTable {
-  static async getData(typeRealty: string) {
+class HttpRealtyData {
+  static async getTypeRealtyAll(typeRealty: string) {
     let typeRealtyENGLISH: string = '';
 
     if (typeRealty === 'Квартира') {
@@ -23,6 +23,18 @@ class HttpTable {
     });
     return response;
   }
+
+  static async getOne(realtyId: string | undefined) {
+    const response = axios.get(`${BASE_URL}/api/getdataonerealty`, {
+      params: {
+        token: localStorage.getItem('token'),
+        userId: localStorage.getItem('userId'),
+        realtyId,
+        // format: 'json',
+      },
+    });
+    return response;
+  }
 }
 
-export default HttpTable;
+export default HttpRealtyData;
