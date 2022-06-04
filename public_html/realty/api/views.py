@@ -120,14 +120,16 @@ def GetUser(id, pravoHave):
         return None
     return User.objects.get(id=id).fullName
 
-def GetObjData(realtyId, ownerId = None):
+def GetObjData(realtyId):
     resp = []
     resp.extend(RealtyData.objects.filter(realty_id=realtyId).values('id', 'name', 'value'))
-    if ownerId:
-        owner = Owner.objects.get(id = ownerId)
-        resp.append({'id' : owner.id, 'name' : 'ownerFullName' , 'value' : owner.fullName })
-        resp.append({'id' : owner.id, 'name' : 'ownerPhone' , 'value' : owner.phone })
-        resp.append({'id' : owner.id, 'name' : 'ownerEmail' , 'value' : owner.email })
+    realty = Realty.objects.get(id=realtyId)
+    owner = Owner.objects.get(id = realty.owner_id)
+    resp.append({'id' : realtyId, 'name' : 'typeRealty' , 'value' : realty.typeRealty })
+    resp.append({'id' : owner.id, 'name' : 'ownerFullName' , 'value' : owner.fullName })
+    resp.append({'id' : owner.id, 'name' : 'ownerPhone' , 'value' : owner.phone })
+    resp.append({'id' : owner.id, 'name' : 'ownerEmail' , 'value' : owner.email })
+
     return resp
 
 # TODO:
@@ -178,7 +180,7 @@ class GetDataRealty(APIView):
             print(realty)
             resp.append({'id' : realty['id'], 
                         'userFullName': None, 
-                        'data' : GetObjData(realty['id'], realty['owner_id'])})
+                        'data' : GetObjData(realty['id'])})
 
         return Response(status=200, data=resp)
 
@@ -297,7 +299,7 @@ class GetDataOneRealty(APIView):
         if token.sellByUTC > timezone.now():
             return Response(status=403, data={'msg':'Token time is up'})
         print(data)
-        return Response(status=200, data=RealtyData.objects.filter(obj_id=data['realtyId']).values())
+        return Response(status=200, data=GetObjData(data['realtyId']))
 
 class PutRealty(APIView):
     def put(self, request):
