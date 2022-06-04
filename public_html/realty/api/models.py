@@ -22,7 +22,7 @@ class User(models.Model):
     
     isActive = models.BooleanField(default=True)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
-    token = models.ForeignKey(Token, on_delete=models.CASCADE)
+    token = models.ForeignKey(Token, on_delete=models.CASCADE, default='')
     class Meta:
         ordering = ['fullName']
 
