@@ -1,8 +1,10 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   Col, Container, Form, Row, Table,
 } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { RealtyContext } from '../../hoc/RealtyProvider';
 import HttpTable from '../../http/HttpTable';
 import Flat from '../../models/Flat';
 import House from '../../models/House';
@@ -11,14 +13,14 @@ import Cell from './Cell';
 import Thead from './Thead';
 
 export type Data = {
-  id: number,
-  name: string,
+  id: number
+  name: string
   value: string
 }
 
 export interface IResponseData {
-  data: Data[],
-  userFullName: null,
+  data: Data[]
+  userFullName: null
   id: number
 
 }
@@ -26,6 +28,8 @@ export interface IResponseData {
 const TableRealty = () => {
   const [data, setData] = useState<Array<Flat | Room | House>>();
   const [selectRealty, setSelectRealty] = useState<string>('Квартира');
+  const navigate = useNavigate();
+  const context = useContext(RealtyContext);
 
   async function getData(typeRealty: string) {
     const response = await HttpTable.getData(typeRealty);
@@ -38,16 +42,20 @@ const TableRealty = () => {
       });
     } else if (selectRealty === 'Комната') {
       response.data.forEach((obj: IResponseData) => {
-        const realty = new Flat(obj.id, obj.data);
+        const realty = new Room(obj.id, obj.data);
         arrRealty.push(realty);
       });
     } else if (selectRealty === 'Дом') {
       response.data.forEach((obj: IResponseData) => {
-        const realty = new Flat(obj.id, obj.data);
+        const realty = new House(obj.id, obj.data);
         arrRealty.push(realty);
       });
     }
     setData(arrRealty);
+  }
+  function handleClickRow(selectedRealty: Flat | Room | House, index: number) {
+    context?.setRealty(selectedRealty);
+    navigate(`/table/realty/${index}`);
   }
 
   useEffect(() => {
@@ -55,7 +63,7 @@ const TableRealty = () => {
   }, [selectRealty]);
 
   return (
-    <Container>
+    <Container fluid="md">
       <div>
         <h3>Таблица</h3>
       </div>
@@ -65,9 +73,9 @@ const TableRealty = () => {
             <Form.Group className="mb-3">
               <Form.Label>Тип недвижимости:</Form.Label>
               <Form.Select value={selectRealty} onChange={(e) => setSelectRealty(e.target.value)}>
-                <option value="Квартира">Квартиры</option>
-                <option value="Комната">Комнаты</option>
-                <option value="Дом">Дома</option>
+                <option value="Квартира">Квартира</option>
+                <option value="Комната">Комната</option>
+                <option value="Дом">Дом</option>
               </Form.Select>
             </Form.Group>
           </Col>
@@ -101,7 +109,11 @@ const TableRealty = () => {
             </thead>
             <tbody>
               {data?.map((realty, index) => (
-                <tr key={index}>
+                <tr
+                  className="realtyId"
+                  onClick={() => handleClickRow(realty, index)}
+                  key={index}
+                >
                   {/* ID */}
                   <Cell>{realty.realtyId}</Cell>
                   {/* Ответственный */}
@@ -110,7 +122,7 @@ const TableRealty = () => {
                   <Cell>{realty.typeHouse.value}</Cell>
                   {/* Контакты */}
                   {/* FIXME: исправить потом и сделать как надо (модульное окно с данными) */}
-                  <Cell>{realty.ownerEmail.value}</Cell>
+                  <Cell>{realty.ownerFullName.value}</Cell>
                   {/* Расположение */}
                   <Cell>{realty.location.value}</Cell>
                   {/* Населенный пункт */}

@@ -13,7 +13,11 @@ interface IAuthContext {
 
 export const AuthContext = createContext<IAuthContext | null>(null);
 
-const AuthProvider = ({ children }: any) => {
+interface IProps {
+  children: React.ReactNode
+}
+
+const AuthProvider = ({ children }: IProps) => {
   const [user, setUser] = useState<IUser>({
     token: localStorage.getItem('token'),
     userId: localStorage.getItem('userId'),
