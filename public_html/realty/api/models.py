@@ -7,7 +7,7 @@ class Role(models.Model):
     name = models.CharField(max_length=25)
 
 class Token(models.Model):
-    token = models.CharField(max_length=100)
+    token = models.CharField(max_length=255)
     isActive = models.BooleanField(default=True)
     sellByUTC = models.DateTimeField(auto_now=True)
     class Meta:
@@ -29,7 +29,7 @@ class User(models.Model):
 class Owner(models.Model):
     fullName = models.CharField(max_length=255)
     phone = models.CharField(max_length=12)
-    email = models.CharField(max_length=50)
+    email = models.CharField(max_length=320)
 
 
 class Realty(models.Model):
@@ -38,11 +38,11 @@ class Realty(models.Model):
     
 
 class RealtyData(models.Model):
-    obj = models.ForeignKey(Realty, on_delete=models.CASCADE)
+    realty = models.ForeignKey(Realty, on_delete=models.CASCADE)
     name = models.CharField(max_length=25)
     value = models.CharField(max_length=200)
 
 
-class ImageObject(models.Model):
+class ImageRealty(models.Model):
     realty = models.ForeignKey(Realty, on_delete=models.CASCADE)
     path = models.ImageField(upload_to = 'objects/% Y/% m/% d/', default=None, blank=True)
