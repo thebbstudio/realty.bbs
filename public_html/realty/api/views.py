@@ -121,8 +121,10 @@ def GetUser(id, pravoHave):
     return User.objects.get(id=id).fullName
 
 def GetObjData(realtyId, ownerId = None):
-    resp = RealtyData.objects.filter(realty_id=realtyId).values('id', 'name', 'value')
+    resp = []
+    resp.extend(RealtyData.objects.filter(realty_id=realtyId).values('id', 'name', 'value'))
     if ownerId:
+        print('owner')
         owner = Owner.objects.get(id = ownerId)
         resp.append({'id' : owner.id, 'name' : 'ownerFullName' , 'value' : owner.fullName })
         resp.append({'id' : owner.id, 'name' : 'ownerPhone' , 'value' : owner.phone })
