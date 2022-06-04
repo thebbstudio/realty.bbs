@@ -29,12 +29,13 @@ class User(models.Model):
 class Owner(models.Model):
     fullName = models.CharField(max_length=255)
     phone = models.CharField(max_length=12)
-    email = models.CharField(max_length=320)
+    email = models.CharField(max_length=50, default='', null=True)
 
 
 class Realty(models.Model):
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    typeRealty = models.CharField(max_length=20, default='Квартира')
     
 
 class RealtyData(models.Model):

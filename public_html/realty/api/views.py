@@ -120,12 +120,17 @@ def GetUser(id, pravoHave):
         return None
     return User.objects.get(id=id).fullName
 
-def GetObjData(realtyId):
-    # resp = []
-    # for field in RealtyData.objects.filter(obj_Id=realtyId).values():
-    #     resp.append({field['name']: field['value']})
-    # return resp
-    return RealtyData.objects.filter(obj=realtyId).values('id', 'name', 'value')
+def GetObjData(realtyId, ownerId = None):
+    resp = RealtyData.objects.filter(realty_id=realtyId).values('id', 'name', 'value')
+    if ownerId:
+        owner = Owner.objects.get(id = ownerId)
+        resp.append({'id' : owner.id, 'name' : 'ownerFullName' , 'value' : owner.fullName })
+        resp.append({'id' : owner.id, 'name' : 'ownerPhone' , 'value' : owner.phone })
+        resp.append({'id' : owner.id, 'name' : 'ownerEmail' , 'value' : owner.email })
+    return resp
+
+# TODO:
+# Были данные о собственнике
 
 class GetDataRealty(APIView):
     def get(self,request):
@@ -136,6 +141,10 @@ class GetDataRealty(APIView):
 
         if not ValidateParams(('token', 'userId', 'typeRealty'), data):
             return Response(status=401, data={'msg' : 'Missing parameter'})
+
+        tr = {'flat' : 'Квартира', 'room' : 'Комната', 'house' : 'Дом'}
+
+        typeRealty = tr[data['typeRealty']]
         
         # Проверка есть ли вообще такой пользователь
         try:
@@ -146,9 +155,9 @@ class GetDataRealty(APIView):
 
         # Проверка есть ли вообще такой токин
         try:
-            token = Token.objects.get(token=data.pop('token'), id = user['token_id'], isActive=True)
+            token = Token.objects.get(token=data['token'], id = user['token_id'], isActive=True)
         except ObjectDoesNotExist:
-            print('Error: token not found')
+            print('Error: token not found', data['token'],user['token_id'])
             return Response(status=403, data={'msg': 'Data is not validate'})
         
         # Проверка живости токена
@@ -156,10 +165,10 @@ class GetDataRealty(APIView):
             return Response(status=403, data={'msg':'Token time is up'})
 
         if Role.objects.get(id = user['role_id']).name in ('admin','super admin', 'manager'):
-            realties = Realty.objects.all().values()
+            realties = Realty.objects.filter(typeRealty = typeRealty).values()
             pravoHave = True 
         else:
-            realties = Realty.objects.filter(user_id = user.id).values()
+            realties = Realty.objects.filter(user_id = user.id, typeRealty = typeRealty).values()
             pravoHave = False
 
         resp = []
@@ -168,10 +177,12 @@ class GetDataRealty(APIView):
             print(realty)
             resp.append({'id' : realty['id'], 
                         'userFullName': None, 
-                        'data' : GetObjData(realty['id'])})
+                        'data' : GetObjData(realty['id'], realty['owner_id'])})
 
         return Response(status=200, data=resp)
 
+# TODO:
+# Записывать данные собвстенникак в таблицу собственника
 
 class CreateRealty(APIView):
     def post(self, request):
@@ -206,22 +217,25 @@ class CreateRealty(APIView):
         try:
             fullName = data.pop('fullNameOwner')
             phone = data.pop('phoneOwner')
-            # email = params.pop('email')
+            email = ''
+            if 'email' in data.keys():
+                email = data.pop('emailOwner')
         except Exception:
             print(data)
             print('Error: object `owner` dont found')
             return Response(status=401, data={'msg' : 'Error: data `owner` dont found'})
 
-        owner = Owner(fullName=fullName, phone=phone)
+        owner = Owner(fullName=fullName, phone=phone, email=email)
         owner.save()
 
-        realty = Realty(owner_id=owner.id, user_id=user['id'])
+        realty = Realty(owner_id=owner.id, user_id=user['id'], typeRealty=data.pop('typeRealty'))
         realty.save()
         # ПИЗДЕЦ БЛЯТЬ ФОТО ХУЁВО СОХРАНИТ
         for key, value in data.items():
-            RealtyData(obj_id=realty.id, name=key, value=value).save()
+            RealtyData(realty_id=realty.id, name=key, value=value).save()
 
         return Response(status=200, data={'msg': 'Write realty done.'})
+
 
 class DeleteRealty(APIView):
     def delete(self, request):
@@ -327,6 +341,7 @@ def PropertyOwner(field, userId):
         elif field == 'fullNameOwner':
             resp.append(owner.fullName)    
     return resp
+
 
 class GetPropertyOwner(APIView):
     def get(self, request):

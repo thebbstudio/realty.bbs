@@ -27,7 +27,7 @@ const ButtonsBackNext = ({
   }
 
   return (
-    <Row>
+    <Row className="mb-3">
       <Col className="d-flex justify-content-center">
         <Button
           type="button"

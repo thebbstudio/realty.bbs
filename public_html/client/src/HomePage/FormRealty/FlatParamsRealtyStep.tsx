@@ -244,7 +244,7 @@ const FlatParamsRealtyStep = ({ control }: any) => (
     />
     <Select
       label="Балкон / Лоджия"
-      name="viewWindows"
+      name="balcony"
       value=""
       required
       options={[

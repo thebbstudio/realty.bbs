@@ -48,7 +48,6 @@ const Header = () => {
       </nav>
 
       <div className="col-md-3 text-end">
-        <Button type="button" variant="outline-primary" className="me-2">Сотрудники</Button>
         <Button
           type="button"
           variant="danger"

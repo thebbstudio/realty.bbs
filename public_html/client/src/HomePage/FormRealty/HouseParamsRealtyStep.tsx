@@ -14,7 +14,7 @@ const HouseParamsRealtyStep = ({ control }: any) => (
     <InputCheck
       type="radio"
       label="Тип дома"
-      name="typeHouse"
+      name="typeBuild"
       value=""
       options={[
         { value: 'Дом', label: 'Дом' },
