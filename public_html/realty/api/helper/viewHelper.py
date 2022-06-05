@@ -16,20 +16,20 @@ from datetime import datetime
 def ValidateUserData(data):
     # Проверка есть ли вообще такой пользователь
     try:
-        user = User.objects.get(id = data['userId'])
+        user = User.objects.filter(id = data['userId']).values()[:1][0]
     except ObjectDoesNotExist:
         print('Error: token or userId not found')
         raise Http403_data
 
     # Проверка есть ли вообще такой токин
     try:
-        token = Token.objects.get(token=data.pop('token'), id = user.token)
+        token = Token.objects.get(token=data.pop('token'), id = user['token_id'], isActive=True)
     except ObjectDoesNotExist:
         print('Error: token not found')
         raise Http403_token
     
     # Проверка живости токена
-    if token.sellByUTC < datetime.utcnow():
+    if token.sellByUTC > timezone.now():
         raise Http403_token
     
     return user

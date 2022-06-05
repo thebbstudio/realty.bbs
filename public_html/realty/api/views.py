@@ -316,9 +316,20 @@ class PutRealty(APIView):
         if not ValidateParams(('token', 'userId', 'realtyId'), data):
             return Response(status=401, data={'msg' : 'Missing parameter'})
         
+        realtyId = data.pop('realtyId')
+
+        ownerId = Realty.objects.get(id = realtyId).owner_id 
+        owner = Owner.objects.get(id = ownerId)
+
+        owner.fullName = data.pop('fullNameOwner')
+        owner.phone = data.pop('phoneOwner')
+
+        if 'emailOwner' in data['emailOwner']:
+            owner.email = data.pop('emailOwner')
+        owner.save()
+        
         user = ValidateUserData(data)
 
-        realtyId = data.pop('realtyId')
         for key, value in data.items():
             print(key, value)
             try:
