@@ -6,7 +6,7 @@ interface IOptions {
 export interface ISelect {
 	label: string
 	name: string,
-	value: string,
+	value: number | string | undefined,
 	options: IOptions[]
 	required?: boolean,
 	control: any
@@ -18,7 +18,7 @@ export interface IInputText {
 	type: 'text' | 'number' | 'tel' | 'email' | 'password',
 	label: string
 	name: string,
-	value: string,
+	value: number | string | undefined,
 	placeholder?: string
 	required?: boolean,
 	control: any,
@@ -33,7 +33,7 @@ export interface IInputCheck {
 	type: 'checkbox' | 'radio',
 	label: string,
 	name: string,
-	value: string,
+	value: number | string | undefined,
 	options: IOptions[],
 	required?: boolean,
 	control: any
@@ -45,7 +45,7 @@ export interface IInputDate {
 	type: 'date' |'datetime',
 	label: string,
 	name: string,
-	value: string,
+	value: string | undefined,
 	required?: boolean
 }
 
@@ -65,7 +65,7 @@ export interface IInputFile {
 export interface ITextarea {
 	label: string,
 	name: string,
-	value: string,
+	value: string | undefined,
 	placeholder: string,
 	maxlength: number
 	required?: boolean

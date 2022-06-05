@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Container, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 // steps
@@ -16,6 +16,7 @@ const FormRealty = () => {
   const [typeRealty, setTypeRealty] = useState('');
   const [stepForm, setStepForm] = useState(1);
   const { handleSubmit, control } = useForm<FormData>();
+  const refForm = useRef<HTMLFormElement | null>(null);
 
   async function sendForm(data: object) {
     const response = await HttpFormRequest.send(data);
@@ -56,13 +57,14 @@ const FormRealty = () => {
     console.log(request);
     console.log('форма отправилась');
     const response = sendForm(request);
-
+    refForm.current?.reset();
+    setStepForm(1);
     return response;
   }
 
   return (
     <Container style={{ maxWidth: '600px' }}>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} ref={refForm}>
         <div>
           <h2>{`Шаг ${stepForm} из 4`}</h2>
         </div>

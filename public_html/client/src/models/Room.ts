@@ -2,7 +2,6 @@ import { Data } from '../HomePage/TableRealty';
 import Realty, { InfoAboutField } from './Realty';
 
 class Room extends Realty {
-  rooms: InfoAboutField;
   typeFlat: InfoAboutField;
   layout: InfoAboutField;
   areaRoom: InfoAboutField;
@@ -18,10 +17,6 @@ class Room extends Realty {
 
   constructor(realtyId: number, data: Data[]) {
     super(realtyId, data);
-    this.rooms = {
-      label: 'Комнат',
-      ...data.filter((el) => el.name === 'rooms')[0],
-    };
     this.typeFlat = {
       label: 'Тип квартиры',
       ...data.filter((el) => el.name === 'typeFlat')[0],

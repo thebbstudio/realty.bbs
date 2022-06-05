@@ -16,6 +16,14 @@ class House extends Realty {
 
   constructor(realtyId: number, data: Data[]) {
     super(realtyId, data);
+    this.areaLiving = {
+      label: 'Площадь жилая',
+      ...data.filter((el) => el.name === 'areaLiving')[0],
+    };
+    this.areaLand = {
+      label: 'Площадь жилая',
+      ...data.filter((el) => el.name === 'areaLand')[0],
+    };
     this.areaRooms = {
       label: 'Площадь комнаты',
       ...data.filter((el) => el.name === 'areaRooms')[0],
