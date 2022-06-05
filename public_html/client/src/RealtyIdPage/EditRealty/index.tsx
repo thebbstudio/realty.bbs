@@ -3,7 +3,7 @@ import {
   Container, Button, Row, Col, Form,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import InputGroupTextLeft from '../../components/InputGroupTextLeft';
 import InputText from '../../components/InputText';
 import Select from '../../components/Select';
@@ -18,8 +18,7 @@ const EditRealty = () => {
   const context = useContext(RealtyContext);
   const realty = context?.realty;
   const { control, handleSubmit } = useForm<FormData>();
-
-  console.log(context?.realty);
+  const navigate = useNavigate();
 
   function renderRealtyParams(typeRealty: string | undefined) {
     if (typeRealty === 'Квартира') {
@@ -52,6 +51,8 @@ const EditRealty = () => {
     console.log('форма отправилась');
   }
 
+  if (!context?.realty) return <Navigate to="/table" />;
+
   return (
     <Container>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -62,7 +63,14 @@ const EditRealty = () => {
 
           </h1>
           <div className="ms-3">
-            <Button type="button" variant="outline-danger">Отменить редактирование</Button>
+            <Button
+              type="button"
+              variant="outline-danger"
+              onClick={() => navigate(-1)}
+            >
+              Отменить редактирование
+
+            </Button>
           </div>
         </div>
         <Row className="mb-3">
