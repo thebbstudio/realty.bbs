@@ -13,8 +13,26 @@ from django.http import Http404
 from rest_framework import status
 from datetime import datetime
 
-def ValidateUserData():
-    pass
+def ValidateUserData(data):
+    # Проверка есть ли вообще такой пользователь
+    try:
+        user = User.objects.get(id = data['userId'])
+    except ObjectDoesNotExist:
+        print('Error: token or userId not found')
+        raise Http403_data
+
+    # Проверка есть ли вообще такой токин
+    try:
+        token = Token.objects.get(token=data.pop('token'), id = user.token)
+    except ObjectDoesNotExist:
+        print('Error: token not found')
+        raise Http403_token
+    
+    # Проверка живости токена
+    if token.sellByUTC < datetime.utcnow():
+        raise Http403_token
+    
+    return user
 
 def ValidateUser():
     pass

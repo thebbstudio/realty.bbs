@@ -316,23 +316,7 @@ class PutRealty(APIView):
         if not ValidateParams(('token', 'userId', 'realtyId'), data):
             return Response(status=401, data={'msg' : 'Missing parameter'})
         
-        # Проверка есть ли вообще такой пользователь
-        try:
-            user = User.objects.get(id = data['userId'])
-        except ObjectDoesNotExist:
-            print('Error: token or userId not found')
-            return Response(status=403, data={'msg': 'Data is not validate'})
-
-        # Проверка есть ли вообще такой токин
-        try:
-            token = Token.objects.get(token=data.pop('token'), id = user.token)
-        except ObjectDoesNotExist:
-            print('Error: token not found')
-            return Response(status=403, data={'msg': 'Data is not validate'})
-        
-        # Проверка живости токена
-        if token.sellByUTC < datetime.utcnow():
-            return Response(status=403, data={'msg':'Token time is up'})
+        user = ValidateUserData(data)
 
         realtyId = data.pop('realtyId')
         for key, value in data.items():
