@@ -348,14 +348,6 @@ const RoomParamsEdit = ({ realty, control }: IProps) => {
           ]}
           control={control}
         />
-        <InputFile
-          type="file"
-          label="Загрузить фото объекта"
-          name="photos"
-          control={control}
-          multiply
-          required
-        />
       </Col>
     </>
   );

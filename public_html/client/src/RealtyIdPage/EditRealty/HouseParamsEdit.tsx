@@ -337,14 +337,6 @@ const HouseParamsEdit = ({ realty, control }: IProps) => {
           required
           control={control}
         />
-        <InputFile
-          type="file"
-          label="Загрузить фото объекта"
-          name="photos"
-          control={control}
-          multiply
-          required
-        />
       </Col>
     </>
   );

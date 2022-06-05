@@ -8,6 +8,7 @@ import InputGroupTextLeft from '../../components/InputGroupTextLeft';
 import InputText from '../../components/InputText';
 import Select from '../../components/Select';
 import { RealtyContext } from '../../hoc/RealtyProvider';
+import HttpFormRequest from '../../http/HttpFormRequest';
 import FlatParamsEdit from './FlatParamsEdit';
 import HouseParamsEdit from './HouseParamsEdit';
 import RoomParamsEdit from './RoomParamsEdit';
@@ -33,14 +34,21 @@ const EditRealty = () => {
     return '';
   }
 
-  function onSubmit(data: any) {
+  async function sendForm(data: object) {
+    const response = await HttpFormRequest.sendEdit(data);
+    return response;
+  }
+
+  function onSubmit(data: object) {
     const request = {
       token: localStorage.getItem('token'),
       userId: localStorage.getItem('userId'),
-      typeRealty: realty?.typeRealty.value,
+      realtyId: realty?.realtyId,
+      photos: realty?.photos.value,
       ...data,
     };
     console.log(request);
+    sendForm(request);
     console.log('форма отправилась');
   }
 

@@ -10,6 +10,15 @@ class HttpFormRequest {
     });
     return response;
   }
+
+  static async sendEdit(form: object) {
+    const response = await axios.put(`${BASE_URL}/api/editdatarealty`, {
+      params: {
+        ...form,
+      },
+    });
+    return response;
+  }
 }
 
 export default HttpFormRequest;
