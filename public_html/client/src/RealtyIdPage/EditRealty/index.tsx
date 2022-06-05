@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {
-  Container, Button, Row, Col,
+  Container, Button, Row, Col, Form,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -16,7 +16,7 @@ const EditRealty = () => {
   const params = useParams();
   const context = useContext(RealtyContext);
   const realty = context?.realty;
-  const { control } = useForm<FormData>();
+  const { control, handleSubmit } = useForm<FormData>();
 
   console.log(context?.realty);
 
@@ -33,9 +33,20 @@ const EditRealty = () => {
     return '';
   }
 
+  function onSubmit(data: any) {
+    const request = {
+      token: localStorage.getItem('token'),
+      userId: localStorage.getItem('userId'),
+      typeRealty: realty?.typeRealty.value,
+      ...data,
+    };
+    console.log(request);
+    console.log('форма отправилась');
+  }
+
   return (
     <Container>
-      <>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <div className="d-flex flex-row justify-content-start align-items-center mb-3">
           <h1>
             Редактировать объекте №
@@ -43,10 +54,9 @@ const EditRealty = () => {
 
           </h1>
           <div className="ms-3">
-            <Button type="button" variant="outline-secondary">Редактировать</Button>
+            <Button type="button" variant="outline-danger">Отменить редактирование</Button>
           </div>
         </div>
-
         <Row className="mb-3">
           <Col>
             <h5>Контактные данные</h5>
@@ -200,7 +210,12 @@ const EditRealty = () => {
         <Row className="mb-3">
           {renderRealtyParams(context?.realty?.typeRealty.value)}
         </Row>
-      </>
+        <Row className="mb-5">
+          <Col className="d-flex justify-content-center">
+            <Button type="submit" variant="success">Сохранить изменения</Button>
+          </Col>
+        </Row>
+      </Form>
     </Container>
   );
 };

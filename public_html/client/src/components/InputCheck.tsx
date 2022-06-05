@@ -12,22 +12,27 @@ const InputCheck = ({ ...props }: IInputCheck) => (
 
     {props.options.map((option) => (
       <Controller
-        key={option.value}
         name={props.name}
-        defaultValue={props.value}
-        rules={{ required: props.required }}
-        control={props.control}
-        render={({ field: { onChange, value, ref } }) => (
+        defaultValue={option.value}
+        render={({
+          field: {
+            onChange, ref, name,
+          },
+        }) => (
           <Form.Check
             type={props.type}
-            name={props.name}
-            value={value}
+            name={name}
+            value={option.value}
             onChange={onChange}
             label={option.label}
+            defaultChecked={props.value === option.value}
             required={props.required}
             ref={ref}
           />
         )}
+        control={props.control}
+        rules={{ required: props.required }}
+        key={option.value}
       />
     ))}
   </Form.Group>

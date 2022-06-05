@@ -20,6 +20,11 @@ const FlatParams = ({ realty }: IProps) => (
         {realty?.typeHouse.value}
       </p>
       <p>
+        Тип квартиры:
+        {' '}
+        {realty?.typeFlat.value}
+      </p>
+      <p>
         Планировка:
         {' '}
         {realty?.layout.value}
