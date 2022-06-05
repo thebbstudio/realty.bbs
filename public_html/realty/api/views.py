@@ -157,6 +157,66 @@ class GetDataRealty(APIView):
 
         return Response(status=200, data=resp)
 
+
+class GetPropertyOwner(APIView):
+    def get(self, request):
+        if not ValidateParams(('token', 'userId', 'field', 'value'), request.data):
+            return Response(status=401, data={'msg' : 'Missing parameter'})
+        
+        # Проверка есть ли вообще такой пользователь
+        try:
+            user = User.objects.get(id = request.data['userId'])
+        except ObjectDoesNotExist:
+            print('Error: token or userId not found')
+            return Response(status=403, data={'msg': 'Data is not validate'})
+
+        # Проверка есть ли вообще такой токин
+        try:
+            token = Token.objects.get(token=request.data.pop('token'), id = user.token)
+        except ObjectDoesNotExist:
+            print('Error: token not found')
+            return Response(status=403, data={'msg': 'Data is not validate'})
+        
+        # Проверка живости токена
+        if token.sellByUTC < datetime.utcnow():
+            return Response(status=403, data={'msg':'Token time is up'})
+        
+        if request.data['field'] in ('phoneOwner', 'emailOwner', 'fullNameOwner'):
+            return Response(data=PropertyOwner(request.data['field'], request.data['userId']))
+        else:
+            return Response(data={'msg': 'Dont have this field ' + str(request.data['field'])},status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetDataOneRealty(APIView):
+    def get(self, request):
+        data = {}
+
+        for key, value in request.GET['params'].items():
+            data.update({key : value})
+
+        if not ValidateParams(('token', 'userId', 'realtyId'), data):
+            return Response(status=401, data={'msg' : 'Missing parameter'})
+        
+        # Проверка есть ли вообще такой пользователь
+        try:
+            user = User.objects.filter(id = data['userId']).values()[:1][0]
+        except ObjectDoesNotExist:
+            print('Error: token or userId not found')
+            return Response(status=403, data={'msg': 'Data is not validate'})
+
+        # Проверка есть ли вообще такой токин
+        try:
+            token = Token.objects.get(token=data.pop('token'), id = user['token_id'], isActive=True)
+        except ObjectDoesNotExist:
+            print('Error: token not found')
+            return Response(status=403, data={'msg': 'Data is not validate'})
+        
+        # Проверка живости токена
+        if token.sellByUTC > timezone.now():
+            return Response(status=403, data={'msg':'Token time is up'})
+        print(data)
+        return Response(status=200, data=GetObjData(data['realtyId']))
+
 # TODO:
 # Записывать данные собвстенникак в таблицу собственника
 
@@ -244,35 +304,6 @@ class DeleteRealty(APIView):
         else:
             return Response(status=403, data={'msg':'Fuck u lather man'})
 
-class GetDataOneRealty(APIView):
-    def get(self, request):
-        data = {}
-
-        for key, value in request.GET['params'].items():
-            data.update({key : value})
-
-        if not ValidateParams(('token', 'userId', 'realtyId'), data):
-            return Response(status=401, data={'msg' : 'Missing parameter'})
-        
-        # Проверка есть ли вообще такой пользователь
-        try:
-            user = User.objects.filter(id = data['userId']).values()[:1][0]
-        except ObjectDoesNotExist:
-            print('Error: token or userId not found')
-            return Response(status=403, data={'msg': 'Data is not validate'})
-
-        # Проверка есть ли вообще такой токин
-        try:
-            token = Token.objects.get(token=data.pop('token'), id = user['token_id'], isActive=True)
-        except ObjectDoesNotExist:
-            print('Error: token not found')
-            return Response(status=403, data={'msg': 'Data is not validate'})
-        
-        # Проверка живости токена
-        if token.sellByUTC > timezone.now():
-            return Response(status=403, data={'msg':'Token time is up'})
-        print(data)
-        return Response(status=200, data=GetObjData(data['realtyId']))
 
 class PutRealty(APIView):
     def put(self, request):
@@ -303,44 +334,17 @@ class PutRealty(APIView):
         if token.sellByUTC < datetime.utcnow():
             return Response(status=403, data={'msg':'Token time is up'})
 
+        realtyId = data.pop('realtyId')
+        for key, value in data.items():
+            print(key, value)
+            try:
+                row = RealtyData.objects.get(realty_id = realtyId, name = key)
+                row.value = value
+                row.save()
+            except ObjectDoesNotExist:
+                RealtyData(realty_id=realtyId, name=key, value=value).save()
 
-        realty = RealtyData.objects.get(obj_id=request.dat.pop('realtyId'))
-        serializer = SnippetSerializer(realty, data=data)
-        
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'msg':'Realty updated'})
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class GetPropertyOwner(APIView):
-    def get(self, request):
-        if not ValidateParams(('token', 'userId', 'field', 'value'), request.data):
-            return Response(status=401, data={'msg' : 'Missing parameter'})
-        
-        # Проверка есть ли вообще такой пользователь
-        try:
-            user = User.objects.get(id = request.data['userId'])
-        except ObjectDoesNotExist:
-            print('Error: token or userId not found')
-            return Response(status=403, data={'msg': 'Data is not validate'})
-
-        # Проверка есть ли вообще такой токин
-        try:
-            token = Token.objects.get(token=request.data.pop('token'), id = user.token)
-        except ObjectDoesNotExist:
-            print('Error: token not found')
-            return Response(status=403, data={'msg': 'Data is not validate'})
-        
-        # Проверка живости токена
-        if token.sellByUTC < datetime.utcnow():
-            return Response(status=403, data={'msg':'Token time is up'})
-        
-        if request.data['field'] in ('phoneOwner', 'emailOwner', 'fullNameOwner'):
-            return Response(data=PropertyOwner(request.data['field'], request.data['userId']))
-        else:
-            return Response(data={'msg': 'Dont have this field ' + str(request.data['field'])},status=status.HTTP_400_BAD_REQUEST)
+        return Response({'msg':'Realty updated'})
 
 
 
