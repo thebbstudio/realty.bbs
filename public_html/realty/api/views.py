@@ -76,7 +76,7 @@ class CheckTokenView(APIView):
     def get(self, request):
         data = {}
 
-        if not ValidateParams(('token', 'userId'), data):
+        if not ValidateParams(('token', 'userId'), request.GET):
             return Response(status=401, data={'msg' : 'Missing parameter'})
         
         data['token'] = request.GET['token']
@@ -217,6 +217,8 @@ class GetDataOneRealty(APIView):
         print(data)
         return Response(status=200, data=GetObjData(data['realtyId']))
 
+        
+
 # TODO:
 # Записывать данные собвстенникак в таблицу собственника
 
@@ -339,7 +341,7 @@ class PutRealty(APIView):
             except ObjectDoesNotExist:
                 RealtyData(realty_id=realtyId, name=key, value=value).save()
 
-        return Response({'msg':'Realty updated'})
+        return Response(status=200, data={'msg':'Realty updated'})
 
 
 
