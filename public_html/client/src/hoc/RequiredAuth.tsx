@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import useAuth from '../hook/useAuth';
 import HttpAuth from '../http/HttpAuth';
@@ -15,7 +15,9 @@ const RequiredAuth = ({ children }: any) => {
     return <Outlet />;
   }
 
-  checkToken();
+  useEffect(() => {
+    checkToken();
+  }, [location.pathname]);
 
   if (user?.user.token === null) {
     return <Navigate to="/auth" state={{ from: location }} />;

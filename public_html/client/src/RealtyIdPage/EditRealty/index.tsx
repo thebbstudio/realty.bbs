@@ -46,7 +46,6 @@ const EditRealty = () => {
       photos: realty?.photos.value,
       ...data,
     };
-    console.log(request);
     sendForm(request);
     console.log('форма отправилась');
   }

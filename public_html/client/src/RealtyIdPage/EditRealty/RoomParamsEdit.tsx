@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import InputCheck from '../../components/InputCheck';
-import InputFile from '../../components/InputFile';
 import InputGroupTextRight from '../../components/InputGroupTextRight';
 import InputText from '../../components/InputText';
 import Select from '../../components/Select';

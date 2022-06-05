@@ -32,9 +32,6 @@ const AuthPage = () => {
         navigate('/');
       });
     }
-    if (response.status === 401) {
-      console.log('вы гей');
-    }
   }
 
   return (

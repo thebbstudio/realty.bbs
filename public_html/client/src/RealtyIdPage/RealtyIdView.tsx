@@ -24,8 +24,6 @@ const RealtyIdView = () => {
     if (context?.realty === undefined) {
       const response = await HttpRealtyData.getOne(params?.realtyId);
 
-      console.log(response.data.realtyId);
-
       const typeRealty: Data[] = response.data.filter((el: Data) => el.name === 'typeRealty');
       if (typeRealty[0].value === 'Квартира') {
         const obj = new Flat(response.data.realtyId, response.data);
@@ -64,8 +62,6 @@ const RealtyIdView = () => {
     }
     return '';
   }
-
-  console.log(params);
 
   return (
     <Container>
