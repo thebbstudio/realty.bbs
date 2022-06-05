@@ -75,13 +75,13 @@ class AuthView(APIView):
 class CheckTokenView(APIView):
     def get(self, request):
         data = {}
-        
-        data['token'] = request.GET['token']
-        data['userId'] = request.GET['userId']
 
         if not ValidateParams(('token', 'userId'), data):
             return Response(status=401, data={'msg' : 'Missing parameter'})
         
+        data['token'] = request.GET['token']
+        data['userId'] = request.GET['userId']
+
         # Проверка есть ли вообще такой пользователь
         try:
             user = User.objects.filter(id = data['userId']).values()[:1][0]
@@ -327,7 +327,7 @@ class PutRealty(APIView):
         if 'emailOwner' in data['emailOwner']:
             owner.email = data.pop('emailOwner')
         owner.save()
-        
+
         user = ValidateUserData(data)
 
         for key, value in data.items():
