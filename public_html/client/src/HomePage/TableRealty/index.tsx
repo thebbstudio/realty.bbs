@@ -63,7 +63,7 @@ const TableRealty = () => {
   }, [selectRealty]);
 
   return (
-    <Container fluid="md">
+    <Container fluid="xxl">
       <div>
         <h3>Таблица</h3>
       </div>
