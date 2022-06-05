@@ -1,4 +1,6 @@
 from ..models import *
+from .customException import *
+
 from django.core.exceptions import ObjectDoesNotExist
 import requests
 from snippets.serializers import SnippetSerializer
@@ -11,6 +13,14 @@ from django.http import Http404
 from rest_framework import status
 from datetime import datetime
 
+def ValidateUserData():
+    pass
+
+def ValidateUser():
+    pass
+
+def ValidateToken():
+    pass
 
 def ValidateParams(paramsList, dataList):
     for param in paramsList:
