@@ -43,6 +43,10 @@ const RealtyIdView = () => {
     }
   }
 
+  const deleteRealty = async () => {
+    await HttpRealtyData.delete(params?.realtyId);
+  };
+
   useEffect(() => {
     initialState();
   }, []);
@@ -79,6 +83,16 @@ const RealtyIdView = () => {
               onClick={() => navigate(`/table/realty/${params.realtyId}/edit`)}
             >
               Редактировать
+
+            </Button>
+          </div>
+          <div className="ms-3">
+            <Button
+              type="button"
+              variant="outline-danger"
+              onClick={deleteRealty}
+            >
+              Удалить объект
 
             </Button>
           </div>
