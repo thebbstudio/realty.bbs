@@ -309,7 +309,7 @@ class DeleteRealty(APIView):
             try:
                 RealtyData.objects.filter(realty_id=data['realtyId']).delete()
                 Realty.objects.get(id=data['realtyId']).delete()
-                return Response(status=200, data={'msg':'Realty deleted'})
+                return Response(status=202, data={'msg':'Realty deleted'})
             except ObjectDoesNotExist:
                 print('Object not found')
                 return Response(status=404, data={'msg':'Object not found'})
