@@ -45,6 +45,7 @@ const RealtyIdView = () => {
 
   const deleteRealty = async () => {
     await HttpRealtyData.delete(params?.realtyId);
+    navigate('/table');
   };
 
   useEffect(() => {
