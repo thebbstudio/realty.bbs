@@ -268,7 +268,7 @@ class CreateRealty(APIView):
 
         realty = Realty(owner_id=owner.id, user_id=user['id'], typeRealty=data.pop('typeRealty'))
         realty.save()
-        # ПИЗДЕЦ БЛЯТЬ ФОТО ХУЁВО СОХРАНИТ
+        
         for key, value in data.items():
             print(realty.id,key,value)
             RealtyData(realty_id=realty.id, name=key, value=value).save()
@@ -278,33 +278,44 @@ class CreateRealty(APIView):
 
 class DeleteRealty(APIView):
     def delete(self, request):
-        if not ValidateParams(('token', 'userId', 'realtyId'),request.data):
+        data = {}
+
+        for key, value in request.data['params'].items():
+            data.update({key : value})
+
+        if not ValidateParams(('token', 'userId', 'realtyId'),data):
             return Response(status=401, data={'msg' : 'Missing parameter'})
         
         # Проверка есть ли вообще такой пользователь
         try:
-            user = User.objects.get( id = request.data['userId'])
+            user = User.objects.get( id = data['userId'])
         except ObjectDoesNotExist:
             print('Error: token or userId not found')
             return Response(status=403, data={'msg': 'Data is not validate'})
 
         # Проверка есть ли вообще такой токин
         try:
-            token = Token.objects.get(token=request.data.pop('token'),id = user.token)
+            token = Token.objects.get(token=data.pop('token'),id = user.token.id)
         except ObjectDoesNotExist:
             print('Error: token not found')
             return Response(status=403, data={'msg': 'Data is not validate'})
         
         # Проверка живости токена
-        if token.sellByUTC < datetime.utcnow():
+        if token.sellByUTC > timezone.now():
             return Response(status=403, data={'msg':'Token time is up'})
         
         
         if (Role.objects.get(id=user.role_id).name in ('admin','super admin', 'manager') or user.id == request.data['userId']):
-            Realty.objects.get(id=request.data['realtyId']).delete()
-            return Response(status=200, data={'msg':'Realty deleted'})
+            try:
+                RealtyData.objects.filter(realty_id=data['realtyId']).delete()
+                Realty.objects.get(id=data['realtyId']).delete()
+                return Response(status=200, data={'msg':'Realty deleted'})
+            except ObjectDoesNotExist:
+                print('Object not found')
+                return Response(status=404, data={'msg':'Object not found'})
+
         else:
-            return Response(status=403, data={'msg':'Fuck u lather man'})
+            return Response(status=403, data={'msg':'Dont deleted'})
 
 
 class PutRealty(APIView):

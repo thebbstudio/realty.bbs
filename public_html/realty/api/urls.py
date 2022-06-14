@@ -12,6 +12,9 @@ urlpatterns = [
     path('auth', AuthView.as_view()),
     
     path('editdatarealty', PutRealty.as_view()),
+    path('deleterealty', DeleteRealty.as_view()),
+
+    
 
     path('checktoken', CheckTokenView.as_view()),
     path('createuser', CreateUser.as_view())
