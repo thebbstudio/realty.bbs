@@ -279,8 +279,8 @@ class CreateRealty(APIView):
 class DeleteRealty(APIView):
     def delete(self, request):
         data = {}
-
-        for key, value in request.data['params'].items():
+        
+        for key, value in request.GET.items():
             data.update({key : value})
 
         if not ValidateParams(('token', 'userId', 'realtyId'),data):
