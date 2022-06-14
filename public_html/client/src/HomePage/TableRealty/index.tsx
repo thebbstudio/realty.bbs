@@ -89,7 +89,7 @@ const TableRealty = () => {
             <thead className="table-light">
               <tr>
                 <Thead>ID</Thead>
-                <Thead>Ответственный</Thead>
+                {/* <Thead>Ответственный</Thead> */}
                 <Thead>Тип дома</Thead>
                 <Thead>Контакты</Thead>
                 <Thead>Расположение</Thead>
@@ -117,7 +117,7 @@ const TableRealty = () => {
                   {/* ID */}
                   <Cell>{realty.realtyId}</Cell>
                   {/* Ответственный */}
-                  <Cell>{index}</Cell>
+                  {/* <Cell>{index}</Cell> */}
                   {/* Тип дома */}
                   <Cell>{realty.typeHouse.value}</Cell>
                   {/* Контакты */}

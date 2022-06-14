@@ -35,6 +35,17 @@ class HttpRealtyData {
     });
     return response;
   }
+
+  static async delete(realtyId: string | undefined) {
+    const response = axios.delete(`${BASE_URL}/api/deleterealty`, {
+      params: {
+        token: localStorage.getItem('token'),
+        userId: localStorage.getItem('userId'),
+        realtyId,
+      },
+    });
+    return response;
+  }
 }
 
 export default HttpRealtyData;
