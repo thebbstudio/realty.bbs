@@ -65,8 +65,6 @@ class AuthView(APIView):
             token.save()
             return Response({'token':token.token,'userId' : user['id']})
         
-        # ИСПРАВИТЬ ЭТО ГОВНО
-        # Проверка живости токена
         if token.sellByUTC > timezone.now():
             return Response(status=403, data={'msg':'Token time is up'})
         
